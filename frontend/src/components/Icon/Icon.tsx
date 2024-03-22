@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { AcademicCapIcon as SolidAcademicCapIcon } from '@heroicons/react/24/solid'
 import { AdjustmentsHorizontalIcon as SolidAdjustmentsHorizontalIcon } from '@heroicons/react/24/solid'
 import { AdjustmentsVerticalIcon as SolidAdjustmentsVerticalIcon } from '@heroicons/react/24/solid'

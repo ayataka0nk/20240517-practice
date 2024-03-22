@@ -12,7 +12,6 @@ type Props<E extends React.ElementType> = OwnProps<E> &
 
 const ListItemComponent = <E extends React.ElementType = 'div'>({
   headline,
-  children,
   icon,
   className,
   component,

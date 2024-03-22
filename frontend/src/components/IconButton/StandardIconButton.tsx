@@ -36,7 +36,7 @@ export const StandardIconButton = React.memo(
 ) as typeof StandardIconButtonComponent
 
 const getButtonStyle = () => {
-  let styles = [
+  const styles = [
     'inline-flex',
     'align-bottom',
     'h-12',

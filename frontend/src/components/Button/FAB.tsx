@@ -13,7 +13,7 @@ type OwnProps<E extends React.ElementType> = {
 type Props<E extends React.ElementType> = OwnProps<E> &
   Omit<React.ComponentProps<E>, keyof OwnProps<E>>
 
-export const FAB = <E extends React.ElementType = 'button'>({
+export const Fab = <E extends React.ElementType = 'button'>({
   className,
   color = 'primary',
   icon,

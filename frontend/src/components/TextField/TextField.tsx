@@ -1,14 +1,14 @@
 import { memo } from 'react'
 import { TextFieldSingleline } from './TextFieldSingleline'
 import { TextFieldMultiline } from './TextFieldMultiline'
-import { TextFieldProps } from './type'
+import { TextAreaProps, TextFieldProps, TextInputProps } from './type'
 
-export const TextField = memo((props: TextFieldProps) => {
-  if (props.multiline) {
-    const { multiline, ...p } = props
+export const TextField = memo(({ multiline, ...props }: TextFieldProps) => {
+  if (multiline) {
+    const p = props as TextAreaProps
     return <TextFieldMultiline {...p} />
   } else {
-    const { multiline, ...p } = props
+    const p = props as TextInputProps
     return <TextFieldSingleline {...p} />
   }
 })

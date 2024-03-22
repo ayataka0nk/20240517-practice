@@ -5,7 +5,7 @@ import { NavigationRailItem } from './NavigationRailItem'
 import { NavigationRailItems } from './NavigationRailItems'
 import { NavigationRailHeader } from './NavigationRailHeader'
 import { NavigationRailActionArea } from './NavigationRailActionArea'
-import { FAB } from '@/components/Button'
+import { Fab } from '@/components/Button'
 
 type Props = ComponentProps<'nav'> & {
   menuIcon?: boolean
@@ -13,7 +13,6 @@ type Props = ComponentProps<'nav'> & {
 }
 
 export const NavigationRail = ({
-  menuIcon,
   onMenuIconClick,
   className,
   ...props
@@ -24,7 +23,7 @@ export const NavigationRail = ({
         <NavigationRailMenuIcon onClick={onMenuIconClick} />
       </NavigationRailHeader>
       <NavigationRailActionArea>
-        <FAB icon="Pencil" />
+        <Fab icon="Pencil" />
       </NavigationRailActionArea>
       <NavigationRailItems>
         <NavigationRailItem icon="Phone" labelText="hoge" />
