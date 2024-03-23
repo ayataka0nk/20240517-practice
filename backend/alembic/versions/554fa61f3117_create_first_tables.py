@@ -46,4 +46,5 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    pass
+    op.drop_table("refresh_tokens")
+    op.drop_table("users")

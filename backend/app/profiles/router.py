@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from typing import Annotated
-from ..auths import User, get_user
+from app.auths import User, get_user
 from .schemas import Profile
 
 router = APIRouter(prefix="/profile", tags=["profile"])

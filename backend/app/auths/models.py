@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func
 from ..database import Base
+from sqlalchemy.orm import relationship
 
 
 class User(Base):
@@ -9,6 +10,8 @@ class User(Base):
     email = Column(String(length=255), nullable=False)
     password = Column(String(length=255), nullable=False)
     name = Column(String(length=255), nullable=False)
+
+    clients = relationship("Client", back_populates="user")
 
     def verify_password(self, password):
         return self.password == password

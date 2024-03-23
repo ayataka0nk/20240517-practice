@@ -27,7 +27,7 @@ def authenticate(db: Session, email: str, password: str):
 def create_access_token(user_id: int):
     access_payload = {
         "token_type": "access_token",
-        "exp": datetime.utcnow() + timedelta(minutes=1),
+        "exp": datetime.utcnow() + timedelta(minutes=120),
         "user_id": user_id,
     }
     # TODO: JWTのシークレットキーを環境変数から取得する
