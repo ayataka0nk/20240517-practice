@@ -3,7 +3,7 @@ from fastapi import Depends
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import load_only
 from datetime import datetime, timedelta
-from jose import jwt
+from jose import ExpiredSignatureError, jwt
 import os
 import base64
 from app.database import get_db
@@ -27,7 +27,7 @@ def authenticate(db: Session, email: str, password: str):
 def create_access_token(user_id: int):
     access_payload = {
         "token_type": "access_token",
-        "exp": datetime.utcnow() + timedelta(minutes=60),
+        "exp": datetime.utcnow() + timedelta(minutes=1),
         "user_id": user_id,
     }
     # TODO: JWTのシークレットキーを環境変数から取得する
@@ -83,7 +83,10 @@ def get_user(
     if is_jwt(token):
         # TODO: JWTのシークレットキーを環境変数から取得する
         # 有効期限と署名は自動で検証される。
-        payload = jwt.decode(token, "SECRET_KEY123", algorithms=["HS256"])
+        try:
+            payload = jwt.decode(token, "SECRET_KEY123", algorithms=["HS256"])
+        except ExpiredSignatureError:
+            raise UnauthorizedException()
         # パスワード以外
         user = (
             db.query(User)

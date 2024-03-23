@@ -1,12 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import DashBoardPage from './dashboard/page'
 import ClientsPage from './clients/page'
+import { dashboardRoute } from './dashboard/route'
+import { loginRoute } from './login/route'
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <DashBoardPage />
-  },
+  loginRoute,
+  dashboardRoute,
   {
     path: '/clients',
     element: <ClientsPage />

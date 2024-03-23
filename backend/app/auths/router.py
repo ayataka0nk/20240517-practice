@@ -29,7 +29,7 @@ def login(
 
 
 @router.post(
-    "/refresh_token",
+    "/refresh-token",
     response_model=LoginSuccessResponse,
     responses=make_responses([UnauthorizedException()]),
 )
@@ -41,7 +41,7 @@ def refresh_token(
 
 
 @router.post(
-    "/clear_token",
+    "/clear-token",
 )
 def clear_token(request: ClearTokenRequest, db: Annotated[Session, Depends(get_db)]):
     delete_token(db, request.refresh_token)
