@@ -1,16 +1,6 @@
-@import '@ayataka/tailwind-md3/dist/style.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer base {
-  :root {
-    --md-sys-breakpoint-md: 600px;
-    --md-sys-breakpoint-xp: 840px;
-    --md-sys-breakpoint-lg: 1200px;
-    --md-sys-breakpoint-xl: 1600px;
-  }
-}
 
 .light {
   --md-sys-color-primary: 101 85 143;

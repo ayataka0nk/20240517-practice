@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
-import { Button, HelloWorld } from '@ayataka/tailwind-md3'
+import { Button } from '@ayataka/tailwind-md3'
 
 export const meta: MetaFunction = () => {
   return [
@@ -35,7 +35,6 @@ export default function Index() {
           </a>
         </li>
       </ul>
-      <HelloWorld />
       {/* <SampleComponent />
       <Button>aa</Button> */}
       <Button icon="AcademicCap">aa</Button>

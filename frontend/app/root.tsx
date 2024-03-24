@@ -1,14 +1,21 @@
-import { LinksFunction } from "@remix-run/node";
+import { LinksFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-import styles from "./global.css?url";
+  ScrollRestoration
+} from '@remix-run/react'
+import styles from './global.css?url'
+import md3Styles from '@ayataka/tailwind-md3/dist/style.css?url'
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  {
+    rel: 'stylesheet',
+    href: md3Styles
+  }
+]
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -25,13 +32,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return <p>Loading...</p>
 }
