@@ -8,13 +8,7 @@ import { Button, TextField } from '@ayataka/tailwind-md3'
 import { LoginValidationError, login } from 'services/auths/login'
 import { ValidationError } from 'services/ValidationError'
 
-export const clientAction = async ({
-  request,
-  params
-}: ClientActionFunctionArgs) => {
-  console.log('clientAction')
-  console.log(params)
-  console.log(request)
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   const formData = await request.formData()
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -23,8 +17,9 @@ export const clientAction = async ({
     return redirect('/dashboard')
   } catch (e: unknown) {
     if (e instanceof ValidationError) {
-      console.log(e.errors)
       return e.errors as LoginValidationError
+    } else {
+      throw e
     }
   }
 }
