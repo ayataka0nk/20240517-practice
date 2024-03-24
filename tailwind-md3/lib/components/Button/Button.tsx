@@ -1,10 +1,10 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { ButtonProps, ButtonVariant } from './types'
 import { FilledButton } from './FilledButton'
 import { OutlinedButton } from './OutlinedButton'
 import { TextButton } from './TextButton'
 
-const ButtonComponent = <E extends React.ElementType = 'button'>(
+export const Button = <E extends React.ElementType = 'button'>(
   props: ButtonProps<E> & { variant?: ButtonVariant }
 ) => {
   const variant = props.variant || 'filled'
@@ -16,5 +16,3 @@ const ButtonComponent = <E extends React.ElementType = 'button'>(
     return <TextButton {...props} />
   }
 }
-
-export const Button = memo(ButtonComponent) as typeof ButtonComponent

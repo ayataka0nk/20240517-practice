@@ -38,7 +38,7 @@ export default function Index() {
       <HelloWorld />
       {/* <SampleComponent />
       <Button>aa</Button> */}
-      <Button>aa</Button>
+      <Button icon="AcademicCap">aa</Button>
 
       <div className="text-primary bg-surface">frontend</div>
       <Outlet />

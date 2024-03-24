@@ -1,5 +1,4 @@
-import "./tailwind.css";
-export { HelloWorld } from "./components/HelloWorld";
+import './tailwind.css'
 
-export { Button, Fab, ExtendedFAB } from "./components/Button";
-export { Icon } from "./components/Icon";
+export { Button, Fab, ExtendedFAB } from './components/Button'
+export { Icon } from './components/Icon'
