@@ -1,0 +1,100 @@
+import { Icon, IconType } from '../Icon'
+import { ButtonColor, ButtonProps } from './types'
+
+export const TextButton = <E extends React.ElementType>({
+  className,
+  children,
+  color = 'primary',
+  icon,
+  component,
+  ...props
+}: ButtonProps<E>) => {
+  const Component = component || 'button'
+  const style = getStyle({ color, icon })
+  return (
+    <Component {...props} className={`${style} ${className}`}>
+      {icon && <Icon type={icon} variant="outline" className="w-5 h-5" />}
+      <p>{children}</p>
+    </Component>
+  )
+}
+
+const getStyle = ({ color, icon }: { color: ButtonColor; icon?: IconType }) => {
+  let styles = [
+    'relative',
+    'inline-flex',
+    'items-center',
+    'justify-center',
+    'align-bottom',
+    'gap-2',
+    'overflow-hidden',
+    'hover:after:absolute',
+    'hover:after:inset-0',
+    'hover:after:full-width',
+    'hover:after:opacity-8',
+    'active:after:absolute',
+    'active:after:inset-0',
+    'active:after:full-width',
+    'active:after:opacity-10',
+    'before:absolute',
+    'before:inset-0',
+    'before:full-width',
+    'before:rounded-full',
+    'before:pointer-events-none',
+    'before:bg-no-repeat',
+    'before:bg-center',
+    'before:opacity-0',
+    'before:transform',
+    'before:scale-10',
+    'before:[transition:transform_.3s,opacity_2s]',
+    'active:before:scale-0',
+    'active:before:opacity-10',
+    'active:before:duration-0',
+    'focus-visible:after:absolute',
+    'focus-visible:after:inset-0',
+    'focus-visible:after:full-width',
+    'focus-visible:after:opacity-10',
+    'focus-visible:outline-none',
+    'h-10',
+    'rounded-3xl',
+    'px-3',
+    'text-sm',
+    'font-semibold'
+  ]
+  switch (color) {
+    case 'primary':
+      styles = [
+        ...styles,
+        'text-primary',
+        'hover:after:bg-primary',
+        'active:after:bg-primary',
+        'focus-visible:after:bg-primary',
+        'before:bg-primary'
+      ]
+      break
+    case 'secondary':
+      styles = [
+        ...styles,
+        'text-secondary',
+        'hover:after:bg-secondary',
+        'active:after:bg-secondary',
+        'focus-visible:after:bg-secondary',
+        'before:bg-secondary'
+      ]
+      break
+    case 'tertiary':
+      styles = [
+        ...styles,
+        'text-tertiary',
+        'hover:after:bg-tertiary',
+        'active:after:bg-tertiary',
+        'focus-visible:after:bg-tertiary',
+        'before:bg-tertiary'
+      ]
+      break
+  }
+  if (typeof icon !== 'undefined') {
+    styles = [...styles, 'pl-4']
+  }
+  return styles.join(' ')
+}
