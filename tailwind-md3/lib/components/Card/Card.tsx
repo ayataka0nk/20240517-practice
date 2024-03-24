@@ -57,6 +57,7 @@ const getElevatedStyle = ({
 }) => {
   const bgStyle = getBackgroundStyle(bg)
   let styles: string[] = [
+    'text-left',
     'relative',
     'overflow-hidden',
     'text-on-surface',
@@ -113,6 +114,7 @@ const getFilledStyle = ({
 }) => {
   const bgStyle = getBackgroundStyle(bg)
   let styles: string[] = [
+    'text-left',
     'relative',
     'overflow-hidden',
     'text-on-surface',
@@ -168,6 +170,7 @@ const getOutlinedStyle = ({
 }) => {
   const bgStyle = getBackgroundStyle(bg)
   let styles: string[] = [
+    'text-left',
     'relative',
     'overflow-hidden',
     'text-on-surface',

@@ -3,7 +3,7 @@ import { IconType } from '../../Icon'
 import { IconButton } from '../../IconButton'
 
 type Props = ComponentProps<'header'> & {
-  onLeadingIconClick: () => void
+  onLeadingIconClick?: () => void
   leadingIcon: IconType
   logo: React.ReactNode
 }

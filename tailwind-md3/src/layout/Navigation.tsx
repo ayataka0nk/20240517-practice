@@ -14,10 +14,16 @@ export const NavigationDrawerStandard = ({ className }: Props) => {
       <NavigationDrawerHeader>tailwind-md3</NavigationDrawerHeader>
       <NavigationDrawerItems>
         <NavigationDrawerItem
-          labelText="Buttons"
+          labelText="AppBar"
+          to="/appbars"
+          component={Link}
+        />
+        <NavigationDrawerItem
+          labelText="Button"
           to="/buttons"
           component={Link}
         />
+        <NavigationDrawerItem labelText="Card" to="/cards" component={Link} />
       </NavigationDrawerItems>
     </nav>
   )
