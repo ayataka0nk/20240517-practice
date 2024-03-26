@@ -6,7 +6,6 @@ import {
 } from '@remix-run/react'
 import { Button, TextField } from '@ayataka/tailwind-md3'
 import { LoginValidationError, login } from 'services/auths/login'
-import { ValidationError } from 'services/ValidationError'
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   const formData = await request.formData()
@@ -16,8 +15,8 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
     await login({ email, password })
     return redirect('/dashboard')
   } catch (e: unknown) {
-    if (e instanceof ValidationError) {
-      return e.errors as LoginValidationError
+    if (e instanceof LoginValidationError) {
+      return e
     } else {
       throw e
     }
@@ -25,22 +24,22 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
 }
 
 export default function LoginPage() {
-  const errors = useActionData<typeof clientAction>()
+  const e = useActionData<typeof clientAction>()
   return (
     <div className="max-w-96 p-4">
-      <p>{errors?.global}</p>
+      <p>{e?.message}</p>
       <Form method="post">
         <TextField
           name="email"
           label="Email"
           type="email"
-          error={errors?.email}
+          error={e?.errors?.email}
         />
         <TextField
           name="password"
           label="Password"
           type="password"
-          error={errors?.password}
+          error={e?.errors?.password}
         />
         <Button variant="filled">ログイン</Button>
       </Form>

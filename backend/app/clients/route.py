@@ -50,7 +50,7 @@ def get_client(client: Annotated[Client, Depends(get_client)]):
     return client
 
 
-@router.put(
+@router.patch(
     "/{client_id}",
     status_code=204,
     responses={

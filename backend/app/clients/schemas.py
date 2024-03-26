@@ -1,5 +1,5 @@
 from uuid import UUID
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ClientSummary(BaseModel):
@@ -13,7 +13,7 @@ class ClientDetail(BaseModel):
 
 
 class ClientBody(BaseModel):
-    name: str
+    name: str = Field(..., min_length=1)
 
 
 class ClientValidationError(BaseModel):

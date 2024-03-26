@@ -75,30 +75,16 @@ export const guestFetch = (
   })
 }
 
-// export const authFetchJson = async(
-//   input: RequestInfo | URL,
-//   init?: RequestInit | undefined
-// ) => {
-
-// }
-
-// export type FetchResult<SuccessBody, FailureBody> =
-//   | {
-//       status: 200
-//       data: SuccessBody
-//     }
-//   | {
-//       status: 422
-//       data: FailureBody
-//     }
-// export const authFetchJson = async (
-//   input: RequestInfo | URL,
-//   init?: RequestInit | undefined
-// ) => {
-//   const response = await authFetch(input, init)
-//   if (response.status === 401) {
-//     window.location.href = '/login'
-//     throw new Error()
-//   }
-//   return response
-// }
+export const authFetchJson = async (
+  input: RequestInfo | URL,
+  init?: RequestInit | undefined
+) => {
+  return authFetch(input, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    }
+  })
+}

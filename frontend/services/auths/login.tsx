@@ -7,11 +7,10 @@ type LoginParams = {
   password: string
 }
 
-export type LoginValidationError = {
-  global?: string
+export class LoginValidationError extends ValidationError<{
   email?: string
   password?: string
-}
+}> {}
 
 export const login = async ({
   email,
@@ -34,14 +33,16 @@ export const login = async ({
     localStorage.setItem('refresh_token', data.refresh_token)
     return
   } else if (response.status === 401) {
-    throw new ValidationError({
-      global: 'メールアドレスかパスワードが間違っています'
+    throw new LoginValidationError({
+      message: 'メールアドレスかパスワードが間違っています'
     })
   } else if (response.status === 422) {
     const data = await response.json()
-    throw new ValidationError({
-      email: data.username.join(''),
-      password: data.password.join('')
+    throw new LoginValidationError({
+      errors: {
+        email: data.username?.join(''),
+        password: data.password?.join('')
+      }
     })
   } else {
     throw new InternalServerError()
