@@ -10,6 +10,7 @@ from app.database import get_db
 from .models import RefreshToken, User
 from .schemas import Tokens
 from ..errors.exceptions import UnauthorizedException
+from uuid import UUID
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
@@ -24,11 +25,11 @@ def authenticate(db: Session, email: str, password: str):
     return user.user_id
 
 
-def create_access_token(user_id: int):
+def create_access_token(user_id: UUID):
     access_payload = {
         "token_type": "access_token",
-        "exp": datetime.utcnow() + timedelta(minutes=120),
-        "user_id": user_id,
+        "exp": datetime.now() + timedelta(minutes=120),
+        "user_id": str(user_id),
     }
     # TODO: JWTのシークレットキーを環境変数から取得する
     access_token = jwt.encode(access_payload, "SECRET_KEY123", algorithm="HS256")
@@ -39,7 +40,7 @@ def create_refresh_token():
     return base64.urlsafe_b64encode(os.urandom(30)).decode()
 
 
-def create_tokens(db: Session, user_id: str):
+def create_tokens(db: Session, user_id: UUID):
     access_token = create_access_token(user_id)
     refresh_token = create_refresh_token()
 
@@ -53,7 +54,7 @@ def create_tokens(db: Session, user_id: str):
     return Tokens(access_token=access_token, refresh_token=refresh_token)
 
 
-def delete_tokens(db: Session, user_id: int):
+def delete_tokens(db: Session, user_id: UUID):
     db.query(RefreshToken).filter(RefreshToken.user_id == user_id).delete()
     db.commit()
 

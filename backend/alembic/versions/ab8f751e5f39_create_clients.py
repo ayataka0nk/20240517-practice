@@ -9,7 +9,16 @@ Create Date: 2024-03-23 16:24:20.604710
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
+from sqlalchemy import (
+    Column,
+    String,
+    Integer,
+    UniqueConstraint,
+    ForeignKey,
+    DateTime,
+    func,
+    ForeignKeyConstraint,
+)
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
@@ -23,25 +32,24 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "clients",
-        sa.Column(
-            "client_id", UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
-        ),
-        sa.Column("name", sa.String(length=255), nullable=False),
-        sa.Column(
+        Column("client_id", UUID(as_uuid=True), primary_key=True, default=uuid.uuid4),
+        Column("name", String(length=255), nullable=False),
+        Column(
             "created_at",
-            sa.DateTime(),
+            DateTime(),
             nullable=False,
-            server_default=sa.func.current_timestamp(),
+            server_default=func.current_timestamp(),
         ),
-        sa.Column(
+        Column(
             "updated_at",
-            sa.DateTime(),
+            DateTime(),
             nullable=True,
-            server_default=sa.func.current_timestamp(),
-            onupdate=sa.func.current_timestamp(),
+            server_default=func.current_timestamp(),
+            onupdate=func.current_timestamp(),
         ),
-        sa.Column("user_id", sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(["user_id"], ["users.user_id"], ondelete="CASCADE"),
+        Column(
+            "user_id", UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False
+        ),
     )
 
 

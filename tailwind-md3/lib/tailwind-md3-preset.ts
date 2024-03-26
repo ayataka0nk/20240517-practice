@@ -1,4 +1,4 @@
-module.exports = {
+export const tailwindMD3Preset = {
   theme: {
     extend: {
       colors: {

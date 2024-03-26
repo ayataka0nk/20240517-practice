@@ -9,7 +9,17 @@ Create Date: 2024-03-23 00:33:00.849578
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
+from sqlalchemy import (
+    Column,
+    String,
+    Integer,
+    UniqueConstraint,
+    ForeignKey,
+    DateTime,
+    func,
+)
+from sqlalchemy.dialects.postgresql import UUID
+from uuid import uuid4
 
 
 # revision identifiers, used by Alembic.
@@ -22,26 +32,26 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "users",
-        sa.Column("user_id", sa.Integer, primary_key=True),
-        sa.Column("email", sa.String(length=255), nullable=False),
-        sa.Column("name", sa.String(length=255), nullable=False),
-        sa.Column("password", sa.String(length=255), nullable=False),
-        sa.UniqueConstraint("email"),
+        Column("user_id", UUID(as_uuid=True), primary_key=True, default=uuid4),
+        Column("email", String(length=255), nullable=False),
+        Column("name", String(length=255), nullable=False),
+        Column("password", String(length=255), nullable=False),
+        UniqueConstraint("email"),
     )
     op.create_table(
         "refresh_tokens",
-        sa.Column("refresh_token_id", sa.Integer, primary_key=True),
-        sa.Column("token", sa.String(256), nullable=False, unique=True),
-        sa.Column(
-            "user_id", sa.Integer, sa.ForeignKey("users.user_id"), nullable=False
+        Column("refresh_token_id", Integer, primary_key=True),
+        Column("token", String(256), nullable=False, unique=True),
+        Column(
+            "user_id", UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False
         ),
-        sa.Column(
+        Column(
             "created_at",
-            sa.DateTime,
+            DateTime,
             nullable=False,
-            server_default=sa.func.current_timestamp(),
+            server_default=func.current_timestamp(),
         ),
-        sa.Column("expires_at", sa.DateTime, nullable=False),
+        Column("expires_at", DateTime, nullable=False),
     )
 
 

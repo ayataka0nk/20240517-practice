@@ -9,8 +9,7 @@
       "import": "./dist/tailwind-md3.js",
       "require": "./dist/tailwind-md3.umd.cjs"
     },
-    "./dist/style.css": "./dist/style.css",
-    "./tailwind-md3-preset.js": "./tailwind-md3-preset.js"
+    "./dist/style.css": "./dist/style.css"
   },
   "files": [
     "dist"

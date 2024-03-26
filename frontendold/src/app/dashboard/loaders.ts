@@ -1,7 +1,7 @@
 import { authLoader, useLoaderData } from '@/services/loader'
 
 export type DashboardLoaderData = {
-  user_id: number
+  user_id: string
   email: string
   name: string
 }

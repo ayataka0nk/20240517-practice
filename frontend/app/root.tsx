@@ -9,6 +9,8 @@ import {
 import styles from './global.css?url'
 import md3Styles from '@ayataka/tailwind-md3/dist/style.css?url'
 import { UITemplateContextProvider } from './components/UITemplateContextProvider'
+import { TailwindContextProvider } from './components/TailwindConfig/TailwindContext'
+import { getTailwindConfig } from './components/TailwindConfig'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -37,10 +39,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const tailwindConfig = getTailwindConfig()
   return (
-    <UITemplateContextProvider>
-      <Outlet />
-    </UITemplateContextProvider>
+    <TailwindContextProvider tailwindConfig={tailwindConfig}>
+      <UITemplateContextProvider>
+        <Outlet />
+      </UITemplateContextProvider>
+    </TailwindContextProvider>
   )
 }
 

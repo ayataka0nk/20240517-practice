@@ -33,10 +33,11 @@ export const NavigationDrawerModal = ({
       />
 
       <NavigationDrawerModalContainer
-        className={`'w-[360px] h-screen ${className}`}
+        className={`'w-[360px] h-screen overflow-y-auto ${className}`}
         isOpen={isDrawerModalOpen}
       >
         <NavigationDrawerHeader
+          className="sticky top-0 z-50 bg-surface-container-low"
           icon="ChevronDoubleLeft"
           onIconClick={handleCloseClick}
         >
