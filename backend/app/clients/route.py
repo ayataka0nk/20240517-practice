@@ -42,7 +42,7 @@ def store_clients(
     new_client = Client(**body.model_dump(), user_id=user.user_id)
     db.add(new_client)
     db.commit()
-    return new_client
+    return {"client_id": new_client.client_id}
 
 
 @router.get("/{client_id}", response_model=ClientDetail)
