@@ -26,7 +26,7 @@ export const ClientSearchForm = ({ defaultValue, className }: Props) => {
       className={className}
       onMenuIconClick={handleMenuIconClick}
       placeholder="search text"
-      name="text"
+      name="keyword"
       searchedValue={defaultValue}
       value={value}
       onChange={handleChange}

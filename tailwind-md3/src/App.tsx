@@ -4,6 +4,9 @@ import './index.css'
 import { Root } from './layout/Root'
 import { AppBars } from './pages/AppBars'
 import { Cards } from './pages/Cards'
+import { SearchBarPage } from './pages/SearchBar'
+import { SearchViewPage } from './pages/SearchView'
+import { SearchFieldPage } from './pages/SearchField'
 
 function App() {
   const router = createBrowserRouter([
@@ -22,6 +25,18 @@ function App() {
         {
           path: 'cards',
           element: <Cards />
+        },
+        {
+          path: 'searchbar',
+          element: <SearchBarPage />
+        },
+        {
+          path: 'searchview',
+          element: <SearchViewPage />
+        },
+        {
+          path: 'searchfield',
+          element: <SearchFieldPage />
         }
       ]
     }

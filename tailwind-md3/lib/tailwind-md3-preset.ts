@@ -102,5 +102,39 @@ export const tailwindMD3Preset = {
     }
   },
 
+  safelist: [
+    // Search
+    'sm:rounded-t-4xl',
+    'md:rounded-t-4xl',
+    'xp:rounded-t-4xl',
+    'lg:rounded-t-4xl',
+    'xl:rounded-t-4xl',
+    'sm:before:rounded-t-4xl',
+    'md:before:rounded-t-4xl',
+    'xp:before:rounded-t-4xl',
+    'lg:before:rounded-t-4xl',
+    'xl:before:rounded-t-4xl',
+    'sm:hidden',
+    'md:hidden',
+    'xp:hidden',
+    'lg:hidden',
+    'xl:hidden',
+    'sm:block',
+    'md:block',
+    'xp:block',
+    'lg:block',
+    'xl:block',
+    'sm:rounded-b-4xl',
+    'md:rounded-b-4xl',
+    'xp:rounded-b-4xl',
+    'lg:rounded-b-4xl',
+    'xl:rounded-b-4xl',
+    'sm:h-auto',
+    'md:h-auto',
+    'xp:h-auto',
+    'lg:h-auto',
+    'xl:h-auto'
+  ],
+
   plugins: []
 }

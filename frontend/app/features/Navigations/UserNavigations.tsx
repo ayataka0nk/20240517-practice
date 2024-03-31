@@ -19,7 +19,7 @@ export const UserNavigations = ({ pageKey, navigationAction }: Props) => {
         items={items}
       />
       <NavigationRail
-        className="hidden md:flex lg:hidden h-full overflow-y-auto"
+        className="hidden md:block lg:hidden h-full overflow-y-auto"
         logo={<Logo />}
         action={navigationAction}
         items={items}

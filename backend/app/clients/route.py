@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from typing import Annotated
+from typing import Annotated, Optional
 from app.auths import User, get_user
 from app.database import get_db, Session
 from .dependencies import get_client
@@ -17,9 +17,14 @@ router = APIRouter(prefix="/clients", tags=["clients"])
 
 @router.get("", response_model=list[ClientSummary])
 def get_clients(
-    user: Annotated[User, Depends(get_user)], db: Annotated[Session, Depends(get_db)]
+    user: Annotated[User, Depends(get_user)],
+    db: Annotated[Session, Depends(get_db)],
+    keyword: Optional[str] = None,
 ):
-    clients = db.query(Client).filter(Client.user_id == user.user_id).all()
+    query = db.query(Client).filter(Client.user_id == user.user_id)
+    if keyword:
+        query = query.filter(Client.name.contains(keyword))
+    clients = query.all()
     return clients
 
 

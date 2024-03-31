@@ -5,13 +5,28 @@ export type ClientSummary = {
   name: string
 }
 
-export const getClients = async (): Promise<ClientSummary[]> => {
+type GetClientsParams = {
+  keyword?: string
+}
+export const getClients = async (
+  params: GetClientsParams | undefined = undefined
+): Promise<ClientSummary[]> => {
+  const urlSearchParams = new URLSearchParams()
+  let path = '/clients'
+  if (params) {
+    if (params.keyword) {
+      urlSearchParams.append('keyword', params.keyword)
+    }
+    path = path + '?' + urlSearchParams.toString()
+  }
+
   const data = await query<
     {
       client_id: string
       name: string
     }[]
-  >('/clients')
+  >(path)
+
   return data.map((client) => ({
     clientId: client.client_id,
     name: client.name

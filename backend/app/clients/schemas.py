@@ -22,3 +22,7 @@ class ClientValidationError(BaseModel):
 
 class ClientId(BaseModel):
     client_id: UUID
+
+
+class ClientSearchParams(BaseModel):
+    keyword: str = None

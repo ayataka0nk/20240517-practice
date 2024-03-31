@@ -24,6 +24,21 @@ export const NavigationDrawerStandard = ({ className }: Props) => {
           component={Link}
         />
         <NavigationDrawerItem labelText="Card" to="/cards" component={Link} />
+        <NavigationDrawerItem
+          labelText="SearchBar"
+          to="/searchbar"
+          component={Link}
+        />
+        <NavigationDrawerItem
+          labelText="SearchView"
+          to="/searchview"
+          component={Link}
+        />
+        <NavigationDrawerItem
+          labelText="SearchField"
+          to="/searchfield"
+          component={Link}
+        />
       </NavigationDrawerItems>
     </nav>
   )

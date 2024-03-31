@@ -8,12 +8,16 @@ import { ClientSummary } from 'services/clients/getClients'
 
 type Props = {
   clients: ClientSummary[]
+  searchedValue?: string
 }
-export const ClientsPanel = ({ clients }: Props) => {
+export const ClientsPanel = ({ clients, searchedValue }: Props) => {
   return (
     <div className="py-2">
       <FABNavigation className="z-[1] md:hidden" action={navigationAction} />
-      <ClientSearchForm defaultValue={''} className="mb-4 z-[1] sticky top-2" />
+      <ClientSearchForm
+        defaultValue={searchedValue || ''}
+        className="mb-4 z-[1] sticky top-2"
+      />
       <div className="grid gap-2">
         {clients.map((client) => (
           <Card
