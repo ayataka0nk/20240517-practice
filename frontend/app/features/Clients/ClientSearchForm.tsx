@@ -28,9 +28,6 @@ export const ClientSearchForm = ({ defaultValue, className }: Props) => {
       placeholder="search text"
       name="keyword"
       searchedValue={defaultValue}
-      value={value}
-      onChange={handleChange}
-      onSearchRequest={handleSearchRequest}
       historyKey="clients"
     ></SearchForm>
   )
