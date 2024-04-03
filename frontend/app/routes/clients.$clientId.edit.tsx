@@ -1,4 +1,10 @@
-import { Button, Card, IconButton, TextField } from '@ayataka/tailwind-md3'
+import {
+  Button,
+  Card,
+  IconButton,
+  TextField,
+  useDialog
+} from '@ayataka/tailwind-md3'
 import {
   ClientActionFunctionArgs,
   ClientLoaderFunctionArgs,
@@ -56,22 +62,38 @@ export const clientAction = async (args: ClientActionFunctionArgs) => {
 export default function ClientEditPage() {
   const { client } = useLoaderData<typeof clientLoader>()
   const e = useActionData<typeof clientAction>()
+  const { DialogComponent, showModal, closeModal } = useDialog()
   return (
     <div>
       <Card bg="surface">
         <div className="mb-4 flex justify-between items-center">
           <p>{client.name}</p>
-          <Form method="post">
-            <input type="hidden" name="_action" value="DELETE" />
-            <IconButton
-              icon="Trash"
-              variant="standard"
-              color="tertiary"
-              type="submit"
-            >
-              削除
-            </IconButton>
-          </Form>
+          <IconButton
+            icon="Trash"
+            variant="standard"
+            color="tertiary"
+            type="button"
+            onClick={showModal}
+          >
+            削除
+          </IconButton>
+          <DialogComponent
+            headline="削除しますか？"
+            supportingText="この操作は取り消せません。"
+            leftButton={
+              <Button variant="text" type="button" onClick={closeModal}>
+                いいえ
+              </Button>
+            }
+            rightButton={
+              <Form method="post">
+                <Button variant="text" type="submit">
+                  はい
+                </Button>
+                <input type="hidden" name="_action" value="DELETE" />
+              </Form>
+            }
+          />
         </div>
         <Form method="post">
           <input type="hidden" name="_action" value="UPDATE" />
