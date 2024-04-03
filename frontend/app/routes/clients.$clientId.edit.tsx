@@ -56,9 +56,6 @@ export const clientAction = async (args: ClientActionFunctionArgs) => {
 export default function ClientEditPage() {
   const { client } = useLoaderData<typeof clientLoader>()
   const e = useActionData<typeof clientAction>()
-  const handleDeleteClick = () => {
-    console.log('delete clicked')
-  }
   return (
     <div>
       <Card bg="surface">
@@ -71,7 +68,6 @@ export default function ClientEditPage() {
               variant="standard"
               color="tertiary"
               type="submit"
-              onClick={handleDeleteClick}
             >
               削除
             </IconButton>
