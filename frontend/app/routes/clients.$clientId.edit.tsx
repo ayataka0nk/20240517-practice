@@ -7,6 +7,7 @@ import {
   useActionData,
   useLoaderData
 } from '@remix-run/react'
+import { deleteClient } from 'services/clients/deleteClient'
 import { getClient } from 'services/clients/getClient'
 import {
   UpdateClientValidationError,
@@ -19,10 +20,7 @@ export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   return { client }
 }
 
-export const clientAction = async ({
-  request,
-  params
-}: ClientActionFunctionArgs) => {
+const updateAction = async ({ request, params }: ClientActionFunctionArgs) => {
   const clientId = params.clientId as string
   const formData = await request.formData()
   const name = formData.get('name') as string
@@ -37,6 +35,24 @@ export const clientAction = async ({
   }
 }
 
+const deleteAction = async ({ request, params }: ClientActionFunctionArgs) => {
+  const clientId = params.clientId as string
+  await deleteClient({ clientId })
+  return redirect(`/clients`)
+}
+
+export const clientAction = async (args: ClientActionFunctionArgs) => {
+  const formData = await args.request.clone().formData()
+  const _action = formData.get('_action') as string
+  if (_action === 'UPDATE') {
+    return updateAction(args)
+  } else if (_action === 'DELETE') {
+    return deleteAction(args)
+  } else {
+    throw new Error('Invalid action')
+  }
+}
+
 export default function ClientEditPage() {
   const { client } = useLoaderData<typeof clientLoader>()
   const e = useActionData<typeof clientAction>()
@@ -48,17 +64,21 @@ export default function ClientEditPage() {
       <Card bg="surface">
         <div className="mb-4 flex justify-between items-center">
           <p>{client.name}</p>
-          <IconButton
-            icon="Trash"
-            variant="standard"
-            color="tertiary"
-            type="button"
-            onClick={handleDeleteClick}
-          >
-            削除
-          </IconButton>
+          <Form method="post">
+            <input type="hidden" name="_action" value="DELETE" />
+            <IconButton
+              icon="Trash"
+              variant="standard"
+              color="tertiary"
+              type="submit"
+              onClick={handleDeleteClick}
+            >
+              削除
+            </IconButton>
+          </Form>
         </div>
         <Form method="post">
+          <input type="hidden" name="_action" value="UPDATE" />
           <div>
             <TextField
               id="name"
