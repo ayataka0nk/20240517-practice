@@ -1,4 +1,4 @@
-import { Button, TextField } from '@ayataka/tailwind-md3'
+import { Button, Card, TextField } from '@ayataka/tailwind-md3'
 import {
   ClientActionFunctionArgs,
   Form,
@@ -37,21 +37,26 @@ export default function ClientCreatePage() {
         <NavigationTopAppBar className="bg-surface-container" logo={<Logo />} />
       </div>
       <div className="md:py-2">
-        <Form method="post">
-          <div>
-            <TextField
-              id="name"
-              name="name"
-              label="企業名"
-              error={e?.errors?.name}
-            />
+        <Card bg="surface">
+          <div className="mb-4 flex justify-between items-center">
+            <p>新しい取引先</p>
           </div>
-          <div className="flex justify-end">
-            <Button type="submit" icon="DocumentCheck">
-              保存する
-            </Button>
-          </div>
-        </Form>
+          <Form method="post">
+            <div>
+              <TextField
+                id="name"
+                name="name"
+                label="企業名"
+                error={e?.errors?.name}
+              />
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit" icon="DocumentCheck">
+                保存する
+              </Button>
+            </div>
+          </Form>
+        </Card>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { SearchFieldDefault } from '../../lib/templates/Search/SearchFieldDefault'
-import { useSearchHistory } from '../../lib/hooks'
+import { useSearchFieldDefaultState } from '../../lib/templates/Search/hooks'
 
 export const SearchFieldPage = () => {
   const handleMenuClick = () => {
@@ -8,34 +8,62 @@ export const SearchFieldPage = () => {
   }
 
   const ref = useRef<HTMLFormElement>(null)
-  const { history, addHistory } = useSearchHistory({ historyKey: 'sample' })
+  const {
+    wrapperRef,
+    inputRef,
+    buttonRef,
+    searchedValue,
+    value,
+    isViewOpen,
+    history,
+    handleClearClick,
+    handleBackClick,
+    handleInputValueItemClick,
+    handleHistoryItemClick,
+    handleFocus,
+    handleChange
+  } = useSearchFieldDefaultState({
+    historyKey: 'sample',
+    searchedValue: 'searched value'
+  })
+  // const { history, addHistory } = useSearchHistory({ historyKey: 'sample' })
 
-  useEffect(() => {
-    const formdata = (e: FormDataEvent) => {
-      console.log('formdata')
-      const keyword = e.formData.get('keyword') as string
-      console.log(keyword)
-      addHistory(keyword)
-    }
-    const current = ref.current
-    current?.addEventListener('formdata', formdata)
-    return () => {
-      current?.removeEventListener('formdata', formdata)
-    }
-  }, [addHistory])
+  // useEffect(() => {
+  //   const formdata = (e: FormDataEvent) => {
+  //     console.log('formdata')
+  //     const keyword = e.formData.get('keyword') as string
+  //     console.log(keyword)
+  //     addHistory(keyword)
+  //   }
+  //   const current = ref.current
+  //   current?.addEventListener('formdata', formdata)
+  //   return () => {
+  //     current?.removeEventListener('formdata', formdata)
+  //   }
+  // }, [addHistory])
 
   return (
     <div>
       <form ref={ref}>
         <SearchFieldDefault
           name="keyword"
-          searchedValue="searched value"
-          docked="md"
           placeholder="hoge"
-          history={history}
-          addHistory={addHistory}
           bg="surface-container-highest"
+          wrapperRef={wrapperRef}
+          inputRef={inputRef}
+          buttonRef={buttonRef}
+          searchedValue={searchedValue}
+          value={value}
+          docked="md"
+          isViewOpen={isViewOpen}
+          history={history}
           onMenuClick={handleMenuClick}
+          onClearClick={handleClearClick}
+          onBackClick={handleBackClick}
+          onInputValueItemClick={handleInputValueItemClick}
+          onHistoryItemClick={handleHistoryItemClick}
+          onFocus={handleFocus}
+          onChange={handleChange}
         />
       </form>
     </div>
