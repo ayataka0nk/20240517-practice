@@ -1,6 +1,12 @@
 import { Card, IconButton } from '@ayataka/tailwind-md3'
-import { ClientLoaderFunctionArgs, Link, useLoaderData } from '@remix-run/react'
+import {
+  ClientLoaderFunctionArgs,
+  Link,
+  useLoaderData,
+  useSearchParams
+} from '@remix-run/react'
 import { getClient } from 'services/clients/getClient'
+import { useClientPath } from '~/features/Clients/paths'
 
 export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   const clientId = params.clientId as string
@@ -10,6 +16,7 @@ export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
 
 export default function ClientDetailPage() {
   const { client } = useLoaderData<typeof clientLoader>()
+  const { makeEditPath } = useClientPath()
   return (
     <div>
       <Card className="relative" bg="surface">
@@ -18,7 +25,7 @@ export default function ClientDetailPage() {
           className="absolute top-1 right-1"
           component={Link}
           icon="PencilSquare"
-          to={`/clients/${client.clientId}/edit`}
+          to={makeEditPath(client.clientId)}
         />
       </Card>
     </div>

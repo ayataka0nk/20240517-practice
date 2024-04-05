@@ -5,6 +5,7 @@ import { navigationAction } from './navigationAction'
 import { ClientSummary } from 'services/clients/getClients'
 import { useNavigationContext } from '~/components/Navigation/NavigationContext'
 import { SearchForm } from '~/components/SearchForm'
+import { useClientPath } from './paths'
 
 type Props = {
   clients: ClientSummary[]
@@ -16,6 +17,9 @@ export const ClientsPanel = ({ clients, searchedValue }: Props) => {
   const handleMenuClick = () => {
     setIsDrawerModalOpen(true)
   }
+
+  const { makeDetailPath } = useClientPath()
+
   return (
     <div className="py-2">
       <FABNavigation className="z-[1] md:hidden" action={navigationAction} />
@@ -34,7 +38,7 @@ export const ClientsPanel = ({ clients, searchedValue }: Props) => {
             bg="surface-container-high"
             key={client.clientId}
             component={Link}
-            to={`/clients/${client.clientId}`}
+            to={makeDetailPath(client.clientId)}
           >
             {client.name}
           </Card>

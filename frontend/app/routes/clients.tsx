@@ -4,6 +4,8 @@ import {
   Outlet,
   redirect,
   useLoaderData,
+  useLocation,
+  useMatches,
   useSearchParams
 } from '@remix-run/react'
 import { getClients } from 'services/clients/getClients'
@@ -16,7 +18,8 @@ import { UserNavigations } from '~/features/Navigations/UserNavigations'
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   const body = await request.formData()
   const keyword = body.get('keyword') ?? undefined
-  return redirect(`/clients?keyword=${keyword}`)
+  const pathname = body.get('pathname')
+  return redirect(`${pathname}?keyword=${keyword}`)
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -30,6 +33,7 @@ export default function ClientsPage() {
   const data = useLoaderData<typeof clientLoader>()
   const [searchParams] = useSearchParams()
   const searchedValue = searchParams.get('keyword') ?? ''
+
   return (
     <div className="h-screen flex bg-surface-container">
       <UserNavigations pageKey="clients" navigationAction={navigationAction} />

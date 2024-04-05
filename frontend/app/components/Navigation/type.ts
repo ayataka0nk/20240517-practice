@@ -1,4 +1,4 @@
-import { IconType } from '@/components/Icon'
+import { IconType } from '@ayataka/tailwind-md3'
 import React from 'react'
 
 export type NavigationActionType = {

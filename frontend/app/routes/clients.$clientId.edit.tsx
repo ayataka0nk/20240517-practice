@@ -19,6 +19,10 @@ import {
   UpdateClientValidationError,
   updateClient
 } from 'services/clients/updateClient'
+import {
+  redirectClientDetail,
+  redirectClientList
+} from '~/features/Clients/paths'
 
 export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   const clientId = params.clientId as string
@@ -30,9 +34,10 @@ const updateAction = async ({ request, params }: ClientActionFunctionArgs) => {
   const clientId = params.clientId as string
   const formData = await request.formData()
   const name = formData.get('name') as string
+
   try {
     await updateClient({ name, clientId })
-    return redirect(`/clients/${clientId}`)
+    return redirectClientDetail(clientId, request)
   } catch (e: unknown) {
     if (e instanceof UpdateClientValidationError) {
       return e
@@ -44,7 +49,7 @@ const updateAction = async ({ request, params }: ClientActionFunctionArgs) => {
 const deleteAction = async ({ request, params }: ClientActionFunctionArgs) => {
   const clientId = params.clientId as string
   await deleteClient({ clientId })
-  return redirect(`/clients`)
+  return redirectClientList(request)
 }
 
 export const clientAction = async (args: ClientActionFunctionArgs) => {

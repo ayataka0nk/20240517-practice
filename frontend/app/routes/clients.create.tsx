@@ -10,6 +10,7 @@ import {
   storeClient
 } from 'services/clients/storeClient'
 import { NavigationTopAppBar } from '~/components/Navigation'
+import { redirectClientDetail } from '~/features/Clients/paths'
 import { Logo } from '~/features/Navigations/Logo'
 
 export const clientAction = async ({
@@ -20,7 +21,7 @@ export const clientAction = async ({
   const name = formData.get('name') as string
   try {
     const clientId = await storeClient({ name })
-    return redirect(`/clients/${clientId}`)
+    return redirectClientDetail(clientId, request)
   } catch (e: unknown) {
     if (e instanceof StoreClientValidationError) {
       return e

@@ -2,7 +2,7 @@ import {
   SearchFieldDefault,
   useSearchFieldDefaultState
 } from '@ayataka/tailwind-md3'
-import { Form } from '@remix-run/react'
+import { Form, useLocation } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
 
 type Props = {
@@ -41,8 +41,10 @@ export const SearchForm = ({
       current.removeEventListener('submit', handleSubmit)
     }
   }, [])
+  const location = useLocation()
   return (
-    <Form ref={ref} className={`${className}`}>
+    <Form ref={ref} className={`${className}`} method="post">
+      <input type="hidden" name="pathname" value={location.pathname} />
       <SearchFieldDefault
         name={name}
         placeholder={placeholder}
