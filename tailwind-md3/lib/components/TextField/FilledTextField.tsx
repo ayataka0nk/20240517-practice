@@ -5,7 +5,7 @@ import { forwardRef } from 'react'
 export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
     const labelStyles = getLabelStyles(icon, error)
-    const inputStyles = getInputStyles(icon, error, false)
+    const inputStyles = getInputStyles(icon, error)
     const supportingTextStyles = getSupportingTextStyles(error)
     const inputWrapper = getInputWrapperStyles()
     return (
@@ -14,7 +14,7 @@ export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <Icon
             variant="outline"
             type={icon}
-            className="absolute left-4 top-4 w-6 h-6 z-[1] text-on-surface-variant"
+            className="absolute left-4 top-4 w-6 h-6 z-[1] text-on-surface-variant pointer-events-none"
           />
         )}
 
@@ -98,11 +98,7 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
   return styles.join(' ')
 }
 
-const getInputStyles = (
-  icon?: IconType,
-  error?: string,
-  multiline?: boolean
-) => {
+const getInputStyles = (icon?: IconType, error?: string) => {
   let styles = [
     // 共通
     'peer',
@@ -141,9 +137,7 @@ const getInputStyles = (
   } else {
     styles.push('pl-4')
   }
-  if (multiline) {
-    styles.push('resize-none')
-  }
+
   return styles.join(' ')
 }
 

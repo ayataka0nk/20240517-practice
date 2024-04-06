@@ -18,9 +18,32 @@ export const TextFields = () => {
         <TextArea label="label" />
       </div>
       <div>
+        <h2>Filled Multi Line With Icon</h2>
+        <TextArea label="label" icon="MagnifyingGlass" />
+      </div>
+      <div>
         <h2>Outlined Single Line</h2>
         <TextField variant="outlined" label="label" />
       </div>
+      <div>
+        <h2>Outlined TextField With Supporting Text And Icon</h2>
+        <TextField
+          variant="outlined"
+          label="label"
+          icon="MagnifyingGlass"
+          supportingText="supportingText"
+        />
+      </div>
+      <div>
+        <h2>Error Outlined TextField With Supporting Text And Icon</h2>
+        <TextField
+          variant="outlined"
+          label="label"
+          icon="MagnifyingGlass"
+          error="hoge"
+        />
+      </div>
+      <div>hoge</div>
     </div>
   )
 }

@@ -1,11 +1,12 @@
 import { TextFieldProps } from './type'
-import { IconType } from '../Icon'
+import { Icon, IconType } from '../Icon'
 import { forwardRef } from 'react'
 
 export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
     const labelStyles = getLabelStyles(icon, error)
     const inputStyles = getInputStyles(icon, error, false)
+    const iconStyle = getIconStyle(error)
     const supportingTextStyles = getSupportingTextStyles(error)
     const inputWrapper = getInputWrapperStyles()
     return (
@@ -23,6 +24,7 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
               {label}
             </label>
           )}
+          {icon && <Icon variant="outline" type={icon} className={iconStyle} />}
         </div>
         <p className={supportingTextStyles}>
           {supportingText && supportingText} {error && error}
@@ -38,15 +40,20 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
     'absolute',
     'cursor-pointer',
     'pointer-events-none',
+    'bg-surface', //TODO 親から指定する
     // 入力値無し
     'peer-placeholder-shown:top-3.5',
     'peer-placeholder-shown:text-lg',
+    'peer-placeholder-shown:px-0',
     // 入力値あり
-    'top-2',
+    '-top-2',
     'text-xs',
+    'px-1',
     // フォーカス
-    'peer-focus:top-2',
-    'peer-focus:text-xs'
+    'peer-focus:-top-2',
+    'peer-focus:left-4',
+    'peer-focus:text-xs',
+    'peer-focus:px-1'
   ]
   if (icon) {
     styles = [
@@ -54,7 +61,7 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
       // 入力値無し
       'peer-placeholder-shown:left-13',
       // 入力値あり
-      'left-13'
+      'left-4'
     ]
   } else {
     styles = [
@@ -83,8 +90,34 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
       'peer-placeholder-shown:text-on-surface-variant',
       // 入力値あり
       'text-on-surface-variant',
+      // ホバー
+      'peer-hover:text-on-surface',
       // フォーカス
       'peer-focus:text-primary'
+    ]
+  }
+  return styles.join(' ')
+}
+
+const getIconStyle = (error?: string) => {
+  let styles = [
+    'absolute',
+    'left-4',
+    'top-4',
+    'w-6',
+    'h-6',
+    'z-[1]',
+    'pointer-events-none'
+  ]
+  if (error) {
+    styles = [...styles, 'text-error']
+  } else {
+    styles = [
+      ...styles,
+      'text-on-surface-variant',
+      'peer-hover:text-on-surface',
+      'peer-focus:text-on-surface-variant',
+      'peer-focus:peer-hover:text-on-surface'
     ]
   }
   return styles.join(' ')
@@ -98,17 +131,18 @@ const getInputStyles = (
   let styles = [
     // 共通
     'peer',
+    'h-[56px]',
     'w-full',
     'block',
     'pr-4',
-    'pt-6',
+    'pt-2',
     'pb-2',
-    'rounded-t',
-    'bg-surface-container-highest',
+    'rounded',
+    'bg-inherit',
     'outline-none',
     'placeholder-transparent',
-    'shadow-underline-thin',
-    'focus:shadow-underline-thick',
+    'shadow-[0_0_0_1px_black]',
+    'focus:shadow-[0_0_0_2px_black]',
     'line-height-0',
     'cursor-pointer'
   ]
@@ -123,7 +157,8 @@ const getInputStyles = (
     styles = [
       ...styles,
       // エラーなし
-      'shadow-primary',
+      'shadow-outline',
+      'hover:shadow-on-surface',
       'focus:shadow-primary'
     ]
   }
@@ -158,5 +193,5 @@ const getSupportingTextStyles = (error?: string) => {
 }
 
 const getInputWrapperStyles = () => {
-  return 'hover:after:full-width relative hover:after:pointer-events-none hover:after:absolute hover:after:inset-0 hover:after:bg-on-surface hover:after:opacity-8'
+  return 'relative mt-1'
 }

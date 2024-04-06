@@ -1,6 +1,6 @@
 import { FormEventHandler, forwardRef, useCallback } from 'react'
 import { TextAreaProps } from './type'
-import { IconType } from '../Icon'
+import { Icon, IconType } from '../Icon'
 
 export const FilledTextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
@@ -19,6 +19,13 @@ export const FilledTextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     return (
       <div className={`relative ${className}`}>
+        {icon && (
+          <Icon
+            variant="outline"
+            type={icon}
+            className="absolute left-4 top-4 w-6 h-6 z-[1] text-on-surface-variant pointer-events-none"
+          />
+        )}
         <div className={inputWrapper}>
           <textarea
             ref={ref}

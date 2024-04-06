@@ -64,6 +64,7 @@ export const tailwindMD3Preset = {
       boxShadow: {
         'underline-thin': '0 1px 0 0 black',
         'underline-thick': '0 2px 0 0 black',
+        'textfield-outlined-hover': '0 0 0 1px black',
         '1dp':
           '0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.20), 0 1px 5px 0 rgba(0, 0, 0, 0.12)',
         '2dp':
