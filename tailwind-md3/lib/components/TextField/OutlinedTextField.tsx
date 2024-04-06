@@ -1,26 +1,40 @@
 import { TextFieldProps } from './type'
 import { Icon, IconType } from '../Icon'
 import { forwardRef } from 'react'
+import { getBackgroundStyle } from '../BackgroundColor'
 
 export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
+  (
+    {
+      id,
+      label,
+      icon,
+      error,
+      supportingText,
+      className,
+      bg = 'surface',
+      ...props
+    },
+    ref
+  ) => {
     const labelStyles = getLabelStyles(icon, error)
     const inputStyles = getInputStyles(icon, error, false)
     const iconStyle = getIconStyle(error)
     const supportingTextStyles = getSupportingTextStyles(error)
     const inputWrapper = getInputWrapperStyles()
+    const bgStyle = getBackgroundStyle(bg)
     return (
       <div className={`relative ${className}`}>
         <div className={inputWrapper}>
           <input
             ref={ref}
             id={id}
-            className={inputStyles}
+            className={`${inputStyles} ${bgStyle}`}
             placeholder=""
             {...props}
           />
           {label && (
-            <label htmlFor={id} className={labelStyles}>
+            <label htmlFor={id} className={`${labelStyles} ${bgStyle}`}>
               {label}
             </label>
           )}
@@ -40,7 +54,6 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
     'absolute',
     'cursor-pointer',
     'pointer-events-none',
-    'bg-surface', //TODO 親から指定する
     // 入力値無し
     'peer-placeholder-shown:top-3.5',
     'peer-placeholder-shown:text-lg',

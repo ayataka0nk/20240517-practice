@@ -1,13 +1,27 @@
 import { TextFieldProps } from './type'
 import { Icon, IconType } from '../Icon'
 import { forwardRef } from 'react'
+import { getBackgroundStyle } from '../BackgroundColor'
 
 export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
+  (
+    {
+      id,
+      label,
+      icon,
+      error,
+      supportingText,
+      className,
+      bg = 'surface-container-highest',
+      ...props
+    },
+    ref
+  ) => {
     const labelStyles = getLabelStyles(icon, error)
     const inputStyles = getInputStyles(icon, error)
     const supportingTextStyles = getSupportingTextStyles(error)
     const inputWrapper = getInputWrapperStyles()
+    const bgStyle = getBackgroundStyle(bg)
     return (
       <div className={`relative ${className}`}>
         {icon && (
@@ -22,7 +36,7 @@ export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <input
             ref={ref}
             id={id}
-            className={inputStyles}
+            className={`${inputStyles} ${bgStyle}`}
             placeholder=""
             {...props}
           />
@@ -108,7 +122,6 @@ const getInputStyles = (icon?: IconType, error?: string) => {
     'pt-6',
     'pb-2',
     'rounded-t',
-    'bg-surface-container-highest',
     'outline-none',
     'placeholder-transparent',
     'shadow-underline-thin',
