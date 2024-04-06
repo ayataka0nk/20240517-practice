@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Card } from '@ayataka/tailwind-md3'
 import { FABNavigation } from '~/components/Navigation'
-import { navigationAction } from './navigationAction'
 import { ClientSummary } from 'services/clients/getClients'
 import { useNavigationContext } from '~/components/Navigation/NavigationContext'
 import { SearchForm } from '~/components/SearchForm'
 import { useClientPath } from './paths'
+import { useNavigationAction } from './navigationAction'
 
 type Props = {
   clients: ClientSummary[]
@@ -19,6 +19,7 @@ export const ClientsPanel = ({ clients, searchedValue }: Props) => {
   }
 
   const { makeDetailPath } = useClientPath()
+  const navigationAction = useNavigationAction()
 
   return (
     <div className="py-2">

@@ -12,14 +12,18 @@ import { getClients } from 'services/clients/getClients'
 import { TwoPaneLayout } from '~/components/Layout'
 import { FirstPane, SecondPane } from '~/components/Layout/TwoPaneLayout'
 import { ClientsPanel } from '~/features/Clients/ClientsPanel'
-import { navigationAction } from '~/features/Clients/navigationAction'
+import { useNavigationAction } from '~/features/Clients/navigationAction'
+import { getClientListPath, redirectClientList } from '~/features/Clients/paths'
 import { UserNavigations } from '~/features/Navigations/UserNavigations'
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   const body = await request.formData()
-  const keyword = body.get('keyword') ?? undefined
-  const pathname = body.get('pathname')
-  return redirect(`${pathname}?keyword=${keyword}`)
+  const pathname = body.get('pathname') as string
+  const searchParams = new URLSearchParams()
+  const bodyKeyword = body.get('keyword')
+  const keyword = bodyKeyword as string
+  searchParams.append('keyword', keyword)
+  return redirect(getClientListPath(searchParams, pathname))
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -33,6 +37,7 @@ export default function ClientsPage() {
   const data = useLoaderData<typeof clientLoader>()
   const [searchParams] = useSearchParams()
   const searchedValue = searchParams.get('keyword') ?? ''
+  const navigationAction = useNavigationAction()
 
   return (
     <div className="h-screen flex bg-surface-container">

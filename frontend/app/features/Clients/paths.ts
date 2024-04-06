@@ -1,7 +1,17 @@
 import { redirect, useSearchParams } from '@remix-run/react'
 
-export const getClientListPath = (searchParams: URLSearchParams) => {
-  return `/clients?${searchParams.toString()}`
+export const getClientListPath = (
+  searchParams: URLSearchParams,
+  pathname?: string
+) => {
+  console.log(searchParams)
+  console.log(pathname)
+  if (typeof pathname === 'undefined') {
+    return `/clients?${searchParams.toString()}`
+  } else {
+    console.log(pathname)
+    return `${pathname}?${searchParams.toString()}`
+  }
 }
 
 export const getClientDetailPath = (
