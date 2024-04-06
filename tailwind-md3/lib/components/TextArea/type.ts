@@ -1,5 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react'
 import { IconType } from '../Icon'
+import { TextFieldVariant } from '../TextField/type'
 
 export type TextAreaProps = ComponentPropsWithoutRef<'textarea'> & {
   id?: string
@@ -7,4 +8,5 @@ export type TextAreaProps = ComponentPropsWithoutRef<'textarea'> & {
   icon?: IconType
   error?: string
   supportingText?: string
+  variant?: TextFieldVariant
 }

@@ -43,7 +43,15 @@ export const TextFields = () => {
           error="hoge"
         />
       </div>
-      <div>hoge</div>
+      <div>
+        <h2>Error Outlined TextField With Supporting Text And Icon</h2>
+        <TextArea
+          variant="outlined"
+          label="label"
+          icon="MagnifyingGlass"
+          error="hoge"
+        />
+      </div>
     </div>
   )
 }
