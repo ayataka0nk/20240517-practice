@@ -1,6 +1,38 @@
+import { TextFieldProps } from './type'
+
+export const FilledTextField = ({
+  id,
+  label,
+  icon,
+  error,
+  supportingText,
+  className,
+  ...props
+}: TextFieldProps) => {
+  const labelStyles = getLabelStyles(icon, error)
+  const inputStyles = getInputStyles(icon, error, false)
+  const supportingTextStyles = getSupportingTextStyles(error)
+  const inputWrapper = getInputWrapperStyles()
+  return (
+    <div className={`relative ${className}`}>
+      <div className={inputWrapper}>
+        <input id={id} className={inputStyles} placeholder="" {...props} />
+        {label && (
+          <label htmlFor={id} className={labelStyles}>
+            {label}
+          </label>
+        )}
+      </div>
+      <p className={supportingTextStyles}>
+        {supportingText && supportingText} {error && error}
+      </p>
+    </div>
+  )
+}
+
 import { IconType } from '../Icon'
 
-export const getLabelStyles = (icon?: IconType, error?: string) => {
+const getLabelStyles = (icon?: IconType, error?: string) => {
   let styles = [
     // 共通
     'absolute',
@@ -58,7 +90,7 @@ export const getLabelStyles = (icon?: IconType, error?: string) => {
   return styles.join(' ')
 }
 
-export const getInputStyles = (
+const getInputStyles = (
   icon?: IconType,
   error?: string,
   multiline?: boolean
@@ -107,7 +139,7 @@ export const getInputStyles = (
   return styles.join(' ')
 }
 
-export const getSupportingTextStyles = (error?: string) => {
+const getSupportingTextStyles = (error?: string) => {
   const styles = [
     // 共通
     'text-xs',
@@ -125,6 +157,6 @@ export const getSupportingTextStyles = (error?: string) => {
   return styles.join(' ')
 }
 
-export const getInputWrapperStyles = () => {
+const getInputWrapperStyles = () => {
   return 'hover:after:full-width relative hover:after:pointer-events-none hover:after:absolute hover:after:inset-0 hover:after:bg-on-surface hover:after:opacity-8'
 }

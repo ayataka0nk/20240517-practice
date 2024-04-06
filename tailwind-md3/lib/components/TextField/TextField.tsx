@@ -1,16 +1,6 @@
-import { memo } from 'react'
-import { TextFieldSingleline } from './TextFieldSingleline'
-import { TextFieldMultiline } from './TextFieldMultiline'
-import { TextAreaProps, TextFieldProps, TextInputProps } from './type'
+import { FilledTextField } from './FilledTextField'
+import { TextFieldProps } from './type'
 
-export const TextField = memo(({ multiline, ...props }: TextFieldProps) => {
-  if (multiline) {
-    const p = props as TextAreaProps
-    return <TextFieldMultiline {...p} />
-  } else {
-    const p = props as TextInputProps
-    return <TextFieldSingleline {...p} />
-  }
-})
-
-TextField.displayName = 'TextField'
+export const TextField = (props: TextFieldProps) => {
+  return <FilledTextField {...props} />
+}

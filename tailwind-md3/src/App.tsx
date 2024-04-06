@@ -8,6 +8,8 @@ import { SearchBarPage } from './pages/SearchBar'
 import { SearchViewPage } from './pages/SearchView'
 import { SearchFieldPage } from './pages/SearchField'
 import { DialogPage } from './pages/Dialog'
+import { DatePickers } from './pages/DatePickers'
+import { TextFields } from './pages/TextFields'
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +30,10 @@ function App() {
           element: <Cards />
         },
         {
+          path: 'datepicker',
+          element: <DatePickers />
+        },
+        {
           path: 'dialog',
           element: <DialogPage />
         },
@@ -42,6 +48,10 @@ function App() {
         {
           path: 'searchfield',
           element: <SearchFieldPage />
+        },
+        {
+          path: 'textfields',
+          element: <TextFields />
         }
       ]
     }

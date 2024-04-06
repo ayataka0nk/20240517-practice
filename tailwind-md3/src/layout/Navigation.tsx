@@ -25,6 +25,11 @@ export const NavigationDrawerStandard = ({ className }: Props) => {
         />
         <NavigationDrawerItem labelText="Card" to="/cards" component={Link} />
         <NavigationDrawerItem
+          labelText="DatePicker"
+          to="/datepicker"
+          component={Link}
+        />
+        <NavigationDrawerItem
           labelText="Dialog"
           to="/dialog"
           component={Link}
@@ -42,6 +47,11 @@ export const NavigationDrawerStandard = ({ className }: Props) => {
         <NavigationDrawerItem
           labelText="SearchField"
           to="/searchfield"
+          component={Link}
+        />
+        <NavigationDrawerItem
+          labelText="TextField"
+          to="/textfields"
           component={Link}
         />
       </NavigationDrawerItems>
