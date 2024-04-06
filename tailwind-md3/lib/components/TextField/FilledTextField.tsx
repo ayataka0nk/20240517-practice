@@ -1,36 +1,36 @@
 import { TextFieldProps } from './type'
-
-export const FilledTextField = ({
-  id,
-  label,
-  icon,
-  error,
-  supportingText,
-  className,
-  ...props
-}: TextFieldProps) => {
-  const labelStyles = getLabelStyles(icon, error)
-  const inputStyles = getInputStyles(icon, error, false)
-  const supportingTextStyles = getSupportingTextStyles(error)
-  const inputWrapper = getInputWrapperStyles()
-  return (
-    <div className={`relative ${className}`}>
-      <div className={inputWrapper}>
-        <input id={id} className={inputStyles} placeholder="" {...props} />
-        {label && (
-          <label htmlFor={id} className={labelStyles}>
-            {label}
-          </label>
-        )}
-      </div>
-      <p className={supportingTextStyles}>
-        {supportingText && supportingText} {error && error}
-      </p>
-    </div>
-  )
-}
-
 import { IconType } from '../Icon'
+import { forwardRef } from 'react'
+
+export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
+  ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
+    const labelStyles = getLabelStyles(icon, error)
+    const inputStyles = getInputStyles(icon, error, false)
+    const supportingTextStyles = getSupportingTextStyles(error)
+    const inputWrapper = getInputWrapperStyles()
+    return (
+      <div className={`relative ${className}`}>
+        <div className={inputWrapper}>
+          <input
+            ref={ref}
+            id={id}
+            className={inputStyles}
+            placeholder=""
+            {...props}
+          />
+          {label && (
+            <label htmlFor={id} className={labelStyles}>
+              {label}
+            </label>
+          )}
+        </div>
+        <p className={supportingTextStyles}>
+          {supportingText && supportingText} {error && error}
+        </p>
+      </div>
+    )
+  }
+)
 
 const getLabelStyles = (icon?: IconType, error?: string) => {
   let styles = [

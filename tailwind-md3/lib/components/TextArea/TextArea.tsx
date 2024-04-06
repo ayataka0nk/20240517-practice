@@ -1,6 +1,11 @@
+import { forwardRef, memo } from 'react'
 import { FilledTextArea } from './FilledTextArea'
 import { TextAreaProps } from './type'
 
-export const TextArea = (props: TextAreaProps) => {
-  return <FilledTextArea {...props} />
-}
+const TextAreaComponent = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  (props: TextAreaProps, ref) => {
+    return <FilledTextArea ref={ref} {...props} />
+  }
+)
+
+export const TextArea = memo(TextAreaComponent)

@@ -1,53 +1,47 @@
-import { FormEventHandler, useCallback } from 'react'
-
+import { FormEventHandler, forwardRef, useCallback } from 'react'
 import { TextAreaProps } from './type'
 import { IconType } from '../Icon'
 
-export const FilledTextArea = ({
-  id,
-  label,
-  icon,
-  error,
-  supportingText,
-  className,
-  ...props
-}: TextAreaProps) => {
-  const labelStyles = getLabelStyles(icon, error)
-  const inputStyles = getInputStyles(icon, error, true)
-  const supportingTextStyles = getSupportingTextStyles(error)
-  const inputWrapper = getInputWrapperStyles()
-  const autoresize: FormEventHandler<HTMLTextAreaElement> = useCallback(
-    (event) => {
-      const textarea = event.target as HTMLTextAreaElement
-      textarea.style.height = 'auto'
-      textarea.style.height = `${textarea.scrollHeight}px`
-    },
-    []
-  )
+export const FilledTextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({ id, label, icon, error, supportingText, className, ...props }, ref) => {
+    const labelStyles = getLabelStyles(icon, error)
+    const inputStyles = getInputStyles(icon, error, true)
+    const supportingTextStyles = getSupportingTextStyles(error)
+    const inputWrapper = getInputWrapperStyles()
+    const autoresize: FormEventHandler<HTMLTextAreaElement> = useCallback(
+      (event) => {
+        const textarea = event.target as HTMLTextAreaElement
+        textarea.style.height = 'auto'
+        textarea.style.height = `${textarea.scrollHeight}px`
+      },
+      []
+    )
 
-  return (
-    <div className={`relative ${className}`}>
-      <div className={inputWrapper}>
-        <textarea
-          id={id}
-          className={inputStyles}
-          placeholder=""
-          rows={1}
-          onInput={autoresize}
-          {...props}
-        />
-        {label && (
-          <label htmlFor={id} className={labelStyles}>
-            {label}
-          </label>
-        )}
+    return (
+      <div className={`relative ${className}`}>
+        <div className={inputWrapper}>
+          <textarea
+            ref={ref}
+            id={id}
+            className={inputStyles}
+            placeholder=""
+            rows={1}
+            onInput={autoresize}
+            {...props}
+          />
+          {label && (
+            <label htmlFor={id} className={labelStyles}>
+              {label}
+            </label>
+          )}
+        </div>
+        <p className={supportingTextStyles}>
+          {supportingText && supportingText} {error && error}
+        </p>
       </div>
-      <p className={supportingTextStyles}>
-        {supportingText && supportingText} {error && error}
-      </p>
-    </div>
-  )
-}
+    )
+  }
+)
 
 const getLabelStyles = (icon?: IconType, error?: string) => {
   let styles = [
