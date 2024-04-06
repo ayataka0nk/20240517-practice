@@ -1,5 +1,5 @@
 import { TextFieldProps } from './type'
-import { IconType } from '../Icon'
+import { Icon, IconType } from '../Icon'
 import { forwardRef } from 'react'
 
 export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
@@ -10,6 +10,14 @@ export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const inputWrapper = getInputWrapperStyles()
     return (
       <div className={`relative ${className}`}>
+        {icon && (
+          <Icon
+            variant="outline"
+            type={icon}
+            className="absolute left-4 top-4 w-6 h-6 z-[1] text-on-surface-variant"
+          />
+        )}
+
         <div className={inputWrapper}>
           <input
             ref={ref}
