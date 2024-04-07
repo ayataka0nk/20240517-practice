@@ -10,6 +10,7 @@ import { SearchFieldPage } from './pages/SearchField'
 import { DialogPage } from './pages/Dialog'
 import { DatePickers } from './pages/DatePickers'
 import { TextFields } from './pages/TextFields'
+import { TimePickers } from './pages/TimePcikers'
 
 function App() {
   const router = createBrowserRouter([
@@ -52,6 +53,10 @@ function App() {
         {
           path: 'textfields',
           element: <TextFields />
+        },
+        {
+          path: 'timepickers',
+          element: <TimePickers />
         }
       ]
     }
