@@ -11,26 +11,22 @@ export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
       icon,
       error,
       supportingText,
+      readOnly = false,
       className,
       bg = 'surface-container-highest',
       ...props
     },
     ref
   ) => {
-    const labelStyles = getLabelStyles(icon, error)
-    const inputStyles = getInputStyles(icon, error)
+    const labelStyles = getLabelStyles(icon, error, readOnly)
+    const iconStyle = getIconStyle(error)
+    const inputStyles = getInputStyles(icon, error, readOnly)
     const supportingTextStyles = getSupportingTextStyles(error)
     const inputWrapper = getInputWrapperStyles()
     const bgStyle = getBackgroundStyle(bg)
     return (
       <div className={`relative ${className}`}>
-        {icon && (
-          <Icon
-            variant="outline"
-            type={icon}
-            className="absolute left-4 top-4 w-6 h-6 z-[1] text-on-surface-variant pointer-events-none"
-          />
-        )}
+        {icon && <Icon variant="outline" type={icon} className={iconStyle} />}
 
         <div className={inputWrapper}>
           <input
@@ -38,6 +34,7 @@ export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
             id={id}
             className={`${inputStyles} ${bgStyle}`}
             placeholder=""
+            readOnly={readOnly}
             {...props}
           />
           {label && (
@@ -54,7 +51,30 @@ export const FilledTextField = forwardRef<HTMLInputElement, TextFieldProps>(
   }
 )
 
-const getLabelStyles = (icon?: IconType, error?: string) => {
+const getIconStyle = (error?: string) => {
+  let styles = [
+    'absolute',
+    'left-4',
+    'top-4',
+    'w-6',
+    'h-6',
+    'z-[1]',
+
+    'pointer-events-none'
+  ]
+  if (error) {
+    styles = [...styles, 'text-error']
+  } else {
+    styles = [...styles, 'text-on-surface-variant']
+  }
+  return styles.join(' ')
+}
+
+const getLabelStyles = (
+  icon?: IconType,
+  error?: string,
+  readOnly?: boolean
+) => {
   let styles = [
     // 共通
     'absolute',
@@ -65,11 +85,17 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
     'peer-placeholder-shown:text-lg',
     // 入力値あり
     'top-2',
-    'text-xs',
-    // フォーカス
-    'peer-focus:top-2',
-    'peer-focus:text-xs'
+    'text-xs'
   ]
+  if (!readOnly) {
+    styles = [
+      ...styles,
+      // フォーカス
+      'peer-focus:top-2',
+      'peer-focus:text-xs'
+    ]
+  }
+
   if (icon) {
     styles = [
       ...styles,
@@ -94,25 +120,40 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
       // 入力値無し
       'peer-placeholder-shown:text-error',
       // 入力値あり
-      'text-error',
-      // フォーカス
-      'peer-focus:text-error'
+      'text-error'
     ]
+    if (!readOnly) {
+      styles = [
+        ...styles,
+        // フォーカス
+        'peer-focus:text-error'
+      ]
+    }
   } else {
     styles = [
       ...styles,
       // 入力値無し
       'peer-placeholder-shown:text-on-surface-variant',
       // 入力値あり
-      'text-on-surface-variant',
-      // フォーカス
-      'peer-focus:text-primary'
+      'text-on-surface-variant'
     ]
+    if (!readOnly) {
+      styles = [
+        ...styles,
+        // フォーカス
+        'peer-focus:text-primary'
+      ]
+    }
   }
+
   return styles.join(' ')
 }
 
-const getInputStyles = (icon?: IconType, error?: string) => {
+const getInputStyles = (
+  icon?: IconType,
+  error?: string,
+  readOnly?: boolean
+) => {
   let styles = [
     // 共通
     'peer',
@@ -125,10 +166,16 @@ const getInputStyles = (icon?: IconType, error?: string) => {
     'outline-none',
     'placeholder-transparent',
     'shadow-underline-thin',
-    'focus:shadow-underline-thick',
     'line-height-0',
     'cursor-pointer'
   ]
+  if (!readOnly) {
+    styles = [
+      ...styles,
+      // フォーカス
+      'focus:shadow-underline-thick'
+    ]
+  }
   if (error) {
     styles = [
       ...styles,

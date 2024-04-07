@@ -5,7 +5,7 @@ import { OutlinedTextArea } from './OutlinedTextArea'
 
 const TextAreaComponent = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   (props: TextAreaProps, ref) => {
-    if (typeof props.variant === 'undefined' && props.variant === 'filled') {
+    if (typeof props.variant === 'undefined' || props.variant === 'filled') {
       return <FilledTextArea ref={ref} {...props} />
     } else {
       return <OutlinedTextArea ref={ref} {...props} />

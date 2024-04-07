@@ -14,6 +14,23 @@ export const TextFields = () => {
         <TextField label="label" icon="MagnifyingGlass" />
       </div>
       <div>
+        <h2>Filled Single Line ReadOnly</h2>
+        <TextField label="label" icon="MagnifyingGlass" readOnly />
+      </div>
+      <div>
+        <h2>Filled Single Line Error</h2>
+        <TextField label="label" icon="MagnifyingGlass" error="error" />
+      </div>
+      <div>
+        <h2>Filled Single Line Error ReadOnly</h2>
+        <TextField
+          label="label"
+          icon="MagnifyingGlass"
+          error="error"
+          readOnly
+        />
+      </div>
+      <div>
         <h2>Filled Multi Line</h2>
         <TextArea label="label" />
       </div>
