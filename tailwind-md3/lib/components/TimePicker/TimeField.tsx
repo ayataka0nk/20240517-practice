@@ -73,12 +73,18 @@ const parseTimeToDisplayTime = (timeString: string): string => {
 
 const validate = (hour: string, minute: string) => {
   const errors: string[] = []
-  if (isNaN(parseInt(hour)) || parseInt(hour) > 24) {
+  if (hour !== '' && (isNaN(parseInt(hour)) || parseInt(hour) > 24)) {
     errors.push('Hourは0~23で入力してください。')
   }
 
-  if (isNaN(parseInt(minute)) || parseInt(minute) > 59) {
+  if (minute !== '' && (isNaN(parseInt(minute)) || parseInt(minute) > 59)) {
     errors.push('Minuteは0~59で入力してください。')
+  }
+
+  if (errors.length === 0) {
+    if ((hour === '' && minute !== '') || (hour !== '' && minute === '')) {
+      errors.push('HourとMinuteは両方入力してください。')
+    }
   }
 
   return errors
