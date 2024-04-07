@@ -19,7 +19,8 @@ export const TimeInputPicker = forwardRef<
       onMinuteChange,
       onPeriodChange,
       onAcceptClick,
-      onCancelClick
+      onCancelClick,
+      errors
     },
     ref
   ) => {
@@ -33,10 +34,28 @@ export const TimeInputPicker = forwardRef<
       onMinuteChange(e.target.value)
     }
 
+    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (
+      event
+    ) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        onAcceptClick()
+      }
+    }
+
+    const handleKeyDownStopEvent: React.KeyboardEventHandler<
+      HTMLButtonElement
+    > = (event) => {
+      if (event.key === 'Enter') {
+        event.stopPropagation()
+      }
+    }
+
     return (
       <div
         className={`bg-surface-container-high ${rootStyle} ${className}`}
         ref={ref}
+        onKeyDown={handleKeyDown}
       >
         <p className="mb-[20px] text-on-surface-variant text-xs">Enter time</p>
         <div className="flex">
@@ -59,7 +78,7 @@ export const TimeInputPicker = forwardRef<
             onChange={onPeriodChange}
           />
         </div>
-        <div className="mb-[24px]">
+        <div>
           <label className="inline-block w-[96px] mr-[24px] text-on-surface-variant text-xs">
             Hour
           </label>
@@ -67,13 +86,28 @@ export const TimeInputPicker = forwardRef<
             Minute
           </label>
         </div>
+        <p className="h-[24px] text-xs text-error">{errors.join('')}</p>
         <div className="flex justify-between items-center">
-          <IconButton icon="Clock" className="text-on-surface-variant" />
+          <IconButton
+            icon="Clock"
+            className="text-on-surface-variant"
+            onKeyDown={handleKeyDownStopEvent}
+          />
           <div className="flex items-center gap-2">
-            <Button variant="text" type="button" onClick={onCancelClick}>
+            <Button
+              variant="text"
+              type="button"
+              onClick={onCancelClick}
+              onKeyDown={handleKeyDownStopEvent}
+            >
               Cancel
             </Button>
-            <Button variant="text" type="button" onClick={onAcceptClick}>
+            <Button
+              variant="text"
+              type="button"
+              onClick={onAcceptClick}
+              onKeyDown={handleKeyDownStopEvent}
+            >
               OK
             </Button>
           </div>

@@ -71,6 +71,19 @@ const parseTimeToDisplayTime = (timeString: string): string => {
   return `${displayHour}:${displayMinute} ${parsed.period}`
 }
 
+const validate = (hour: string, minute: string) => {
+  const errors: string[] = []
+  if (isNaN(parseInt(hour)) || parseInt(hour) > 24) {
+    errors.push('Hourは0~23で入力してください。')
+  }
+
+  if (isNaN(parseInt(minute)) || parseInt(minute) > 59) {
+    errors.push('Minuteは0~59で入力してください。')
+  }
+
+  return errors
+}
+
 export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     { name, label, defaultValue, value: parentValue, onChange, ...props },
@@ -88,6 +101,7 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
     const [minute, setMinute] = useState('')
     const [period, setPeriod] = useState<Period>('AM')
     const { ref: dialogRef, showModal, closeModal } = useDialogState()
+    const [errors, setErrors] = useState<string[]>([])
 
     const [localValue, setLocalValue] = useState<string>(
       typeof defaultValue === 'string' ? defaultValue : ''
@@ -116,15 +130,22 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
     }
 
     const handleHourChange = (hour: string) => {
-      setHour(hour)
+      if (hour === '' || !isNaN(parseInt(hour))) {
+        setHour(hour)
+        setErrors([])
+      }
     }
 
     const handleMinuteChange = (minute: string) => {
-      setMinute(minute)
+      if (minute === '' || !isNaN(parseInt(minute))) {
+        setMinute(minute)
+        setErrors([])
+      }
     }
 
     const handlePeriodChange = (period: Period) => {
       setPeriod(period)
+      setErrors([])
     }
     const handleTextFieldClick = () => {
       // 開くタイミングで再初期化
@@ -142,12 +163,26 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
     }
 
     const handleAcceptClick = () => {
+      const errors = validate(hour, minute)
+      if (errors.length > 0) {
+        setErrors(errors)
+        return
+      }
       const timeString = calculateTimeString(hour, minute, period)
       changeValue(timeString)
       closeModal()
     }
     const handleCancelClick = () => {
       closeModal()
+    }
+
+    const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (
+      event
+    ) => {
+      if (event.key === 'Enter') {
+        event.preventDefault()
+        handleTextFieldClick()
+      }
     }
 
     return (
@@ -160,6 +195,7 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
           icon="Clock"
           label={label}
           onClick={handleTextFieldClick}
+          onKeyDown={handleKeyDown}
           readOnly
           {...props}
         />
@@ -173,6 +209,7 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
             onPeriodChange={handlePeriodChange}
             onAcceptClick={handleAcceptClick}
             onCancelClick={handleCancelClick}
+            errors={errors}
           />
         </dialog>
       </div>

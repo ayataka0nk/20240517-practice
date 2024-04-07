@@ -8,6 +8,7 @@ export type TimePickerCommonProps = {
   onPeriodChange: (period: Period) => void
   onAcceptClick: () => void
   onCancelClick: () => void
+  errors: string[]
 }
 
 export type Period = 'AM' | 'PM'

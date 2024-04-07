@@ -61,6 +61,15 @@ export const TextFields = () => {
         />
       </div>
       <div>
+        <h2>Error Outlined TextField ReadOnly</h2>
+        <TextField
+          variant="outlined"
+          label="label"
+          icon="MagnifyingGlass"
+          readOnly
+        />
+      </div>
+      <div>
         <h2>Error Outlined TextField With Supporting Text And Icon</h2>
         <TextArea
           variant="outlined"

@@ -39,6 +39,10 @@ export const TimePickers = () => {
           submit
         </Button>
       </div>
+      <div className="mt-4">
+        <h2>Outlined Time Field</h2>
+        <TimeField variant="outlined" label="uncontrolled" name="sample" />
+      </div>
     </div>
   )
 }

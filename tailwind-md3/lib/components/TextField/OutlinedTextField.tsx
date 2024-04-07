@@ -11,13 +11,14 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
       icon,
       error,
       supportingText,
+      readOnly,
       className,
       bg = 'surface',
       ...props
     },
     ref
   ) => {
-    const labelStyles = getLabelStyles(icon, error)
+    const labelStyles = getLabelStyles(icon, error, readOnly)
     const inputStyles = getInputStyles(icon, error, false)
     const iconStyle = getIconStyle(error)
     const supportingTextStyles = getSupportingTextStyles(error)
@@ -31,6 +32,7 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
             id={id}
             className={`${inputStyles} ${bgStyle}`}
             placeholder=""
+            readOnly
             {...props}
           />
           {label && (
@@ -48,7 +50,11 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
   }
 )
 
-const getLabelStyles = (icon?: IconType, error?: string) => {
+const getLabelStyles = (
+  icon?: IconType,
+  error?: string,
+  readOnly?: boolean
+) => {
   let styles = [
     // 共通
     'absolute',
@@ -61,13 +67,18 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
     // 入力値あり
     '-top-2',
     'text-xs',
-    'px-1',
-    // フォーカス
-    'peer-focus:-top-2',
-    'peer-focus:left-4',
-    'peer-focus:text-xs',
-    'peer-focus:px-1'
+    'px-1'
   ]
+  if (!readOnly) {
+    styles = [
+      ...styles,
+      // フォーカス
+      'peer-focus:-top-2',
+      'peer-focus:left-4',
+      'peer-focus:text-xs',
+      'peer-focus:px-1'
+    ]
+  }
   if (icon) {
     styles = [
       ...styles,
@@ -92,10 +103,15 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
       // 入力値無し
       'peer-placeholder-shown:text-error',
       // 入力値あり
-      'text-error',
-      // フォーカス
-      'peer-focus:text-error'
+      'text-error'
     ]
+    if (!readOnly) {
+      styles = [
+        ...styles,
+        // フォーカス
+        'peer-focus:text-error'
+      ]
+    }
   } else {
     styles = [
       ...styles,
@@ -104,10 +120,15 @@ const getLabelStyles = (icon?: IconType, error?: string) => {
       // 入力値あり
       'text-on-surface-variant',
       // ホバー
-      'peer-hover:text-on-surface',
-      // フォーカス
-      'peer-focus:text-primary'
+      'peer-hover:text-on-surface'
     ]
+    if (!readOnly) {
+      styles = [
+        ...styles,
+        // フォーカス
+        'peer-focus:text-primary'
+      ]
+    }
   }
   return styles.join(' ')
 }
