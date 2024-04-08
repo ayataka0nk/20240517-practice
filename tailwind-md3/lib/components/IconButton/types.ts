@@ -1,5 +1,6 @@
 import React from 'react'
 import { IconType } from '../Icon'
+import { IconVariant } from '../Icon/types'
 
 export type IconButtonVariant = 'standard' | 'filled' | 'filled-tonal'
 export type IconButtonColor = 'primary' | 'secondary' | 'tertiary'
@@ -9,6 +10,7 @@ type OwnProps<E extends React.ElementType> = {
   disabled?: boolean
   active?: boolean
   noRipple?: boolean
+  iconVariant?: IconVariant
   component?: E
 }
 

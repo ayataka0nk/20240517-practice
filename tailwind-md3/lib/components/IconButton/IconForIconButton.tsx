@@ -1,4 +1,5 @@
 import { IconType, Icon } from '../Icon'
+import { IconVariant } from '../Icon/types'
 import { IconButtonVariant } from './types'
 
 type Props = {
@@ -6,12 +7,14 @@ type Props = {
   icon: IconType
   variant: IconButtonVariant
   active: boolean
+  iconVariant?: IconVariant
 }
 export const IconForIconButton = ({
   className,
   icon,
   variant,
-  active
+  active,
+  iconVariant
 }: Props) => {
   const classNameLocal = className + ' w-6 h-6'
   switch (variant) {
@@ -19,7 +22,13 @@ export const IconForIconButton = ({
       if (active) {
         return <Icon type={icon} variant="solid" className={classNameLocal} />
       } else {
-        return <Icon type={icon} variant="outline" className={classNameLocal} />
+        return (
+          <Icon
+            type={icon}
+            variant={iconVariant || 'outline'}
+            className={classNameLocal}
+          />
+        )
       }
     case 'filled':
       if (active) {

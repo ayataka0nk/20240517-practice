@@ -28,16 +28,23 @@ export const TimePickers = () => {
       </div>
       <div className="mt-4">
         <h2>Controlled Time Field</h2>
-        <TimeField label="controlled" value={value} onChange={handleChange} />
-        <input type="text" value={value} onChange={handleChange} />
-        <Button
-          type="button"
-          onClick={() => {
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            const form = new FormData(e.currentTarget)
+            const value = form.get('sample2')
             console.log(value)
           }}
         >
-          submit
-        </Button>
+          <TimeField
+            label="controlled"
+            name="sample2"
+            value={value}
+            onChange={handleChange}
+          />
+          <input type="text" value={value} onChange={handleChange} />
+          <Button type="submit">button</Button>
+        </form>
       </div>
       <div className="mt-4">
         <h2>Outlined Time Field</h2>

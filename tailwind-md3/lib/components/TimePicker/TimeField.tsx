@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -92,7 +93,15 @@ const validate = (hour: string, minute: string) => {
 
 export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
-    { name, label, defaultValue, value: parentValue, onChange, ...props },
+    {
+      name,
+      label,
+      defaultValue,
+      value: parentValue,
+      onChange,
+      variant = 'outlined',
+      ...props
+    },
     forwardedRef
   ) => {
     // 制御と非制御どっちでも使えるようにするため
@@ -113,27 +122,32 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
       typeof defaultValue === 'string' ? defaultValue : ''
     )
     const value = isControlled ? String(parentValue) : localValue
-    useEffect(() => {
-      if (isControlled) {
-        setLocalValue(String(parentValue))
-      }
-    }, [parentValue, isControlled])
-    const changeValue = (value: string) => {
-      if (isControlled) {
-        const newEvent = {
-          ...new Event('change', { bubbles: true }),
-          target: inputRef.current,
-          currentTarget: inputRef.current
-        } as unknown as React.ChangeEvent<HTMLInputElement>
-        newEvent.target.value = value
-        onChange(newEvent)
-      } else {
+
+    const changeValue = useCallback(
+      (value: string) => {
+        if (isControlled) {
+          const newEvent = {
+            ...new Event('change', { bubbles: true }),
+            target: inputRef.current,
+            currentTarget: inputRef.current
+          } as unknown as React.ChangeEvent<HTMLInputElement>
+          newEvent.target.value = value
+          onChange(newEvent)
+        }
         if (inputRef.current) {
           inputRef.current.value = value
         }
+
+        setLocalValue(value)
+      },
+      [isControlled, onChange]
+    )
+
+    useEffect(() => {
+      if (typeof parentValue === 'string') {
+        changeValue(parentValue)
       }
-      setLocalValue(value)
-    }
+    }, [parentValue, changeValue])
 
     const handleHourChange = (hour: string) => {
       if (hour === '' || !isNaN(parseInt(hour))) {
@@ -203,6 +217,7 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
           onClick={handleTextFieldClick}
           onKeyDown={handleKeyDown}
           readOnly
+          variant={variant}
           {...props}
         />
         <dialog ref={dialogRef} className="rounded-[28px] backdrop:bg-black/60">

@@ -1,10 +1,5 @@
 import { Button, Card, TextField } from '@ayataka/tailwind-md3'
-import {
-  ClientActionFunctionArgs,
-  Form,
-  redirect,
-  useActionData
-} from '@remix-run/react'
+import { ClientActionFunctionArgs, Form, useActionData } from '@remix-run/react'
 import {
   StoreClientValidationError,
   storeClient

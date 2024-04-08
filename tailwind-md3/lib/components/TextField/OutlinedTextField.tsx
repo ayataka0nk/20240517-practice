@@ -13,12 +13,13 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
       supportingText,
       readOnly,
       className,
+      placeholder,
       bg = 'surface',
       ...props
     },
     ref
   ) => {
-    const labelStyles = getLabelStyles(icon, error, readOnly)
+    const labelStyles = getLabelStyles(icon, error, readOnly, placeholder)
     const inputStyles = getInputStyles(icon, error, false)
     const iconStyle = getIconStyle(error)
     const supportingTextStyles = getSupportingTextStyles(error)
@@ -31,8 +32,8 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
             ref={ref}
             id={id}
             className={`${inputStyles} ${bgStyle}`}
-            placeholder=""
-            readOnly
+            placeholder={placeholder || ''}
+            readOnly={readOnly}
             {...props}
           />
           {label && (
@@ -53,22 +54,31 @@ export const OutlinedTextField = forwardRef<HTMLInputElement, TextFieldProps>(
 const getLabelStyles = (
   icon?: IconType,
   error?: string,
-  readOnly?: boolean
+  readOnly?: boolean,
+  placeholder?: string
 ) => {
   let styles = [
     // 共通
     'absolute',
     'cursor-pointer',
-    'pointer-events-none',
-    // 入力値無し
-    'peer-placeholder-shown:top-3.5',
-    'peer-placeholder-shown:text-lg',
-    'peer-placeholder-shown:px-0',
+    'pointer-events-none'
+  ]
+  styles = [
+    ...styles,
     // 入力値あり
     '-top-2',
     'text-xs',
     'px-1'
   ]
+  if (typeof placeholder === 'undefined') {
+    styles = [
+      ...styles,
+      // 入力値無し
+      'peer-placeholder-shown:top-3.5',
+      'peer-placeholder-shown:text-lg',
+      'peer-placeholder-shown:px-0'
+    ]
+  }
   if (!readOnly) {
     styles = [
       ...styles,
@@ -174,7 +184,7 @@ const getInputStyles = (
     'rounded',
     'bg-inherit',
     'outline-none',
-    'placeholder-transparent',
+    'placeholder-on-surface-variant',
     'shadow-[0_0_0_1px_black]',
     'focus:shadow-[0_0_0_2px_black]',
     'line-height-0',

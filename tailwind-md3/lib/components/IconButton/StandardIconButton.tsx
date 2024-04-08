@@ -9,6 +9,7 @@ const StandardIconButtonComponent = <E extends React.ElementType>({
   noRipple = false,
   className,
   variant = 'standard',
+  iconVariant,
   component,
   ...props
 }: IconButtonProps<E>) => {
@@ -25,6 +26,7 @@ const StandardIconButtonComponent = <E extends React.ElementType>({
           variant={variant}
           active={active}
           className={iconClassName}
+          iconVariant={iconVariant}
         />
       </div>
     </Component>
