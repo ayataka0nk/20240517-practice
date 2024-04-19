@@ -5,7 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from .errors import ValidationException
 from fastapi.encoders import jsonable_encoder
-from . import auths, profiles, clients
+from . import auths, profiles, clients, projects
 
 app = FastAPI()
 
@@ -51,3 +51,4 @@ def read_root():
 app.include_router(auths.router)
 app.include_router(profiles.router)
 app.include_router(clients.router)
+app.include_router(projects.router)

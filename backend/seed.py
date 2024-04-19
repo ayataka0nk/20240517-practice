@@ -1,6 +1,8 @@
 from app.clients import Client
 from app.database import get_db, Session
-from app.auths import User
+from app.auths import User, RefreshToken
+from app.projects import Project, WorkEntry
+from sqlalchemy import delete
 
 
 def seed(db: Session):
@@ -10,10 +12,35 @@ def seed(db: Session):
         client = Client(name=f"Client {i}")
         user.clients.append(client)
 
+    project = Project(name="Project 1", description="Description 1", owner=user)
+    db.add(project)
+
+    db.add(
+        WorkEntry(
+            project=project,
+            user=user,
+            start_time="2024-01-01 00:00:00",
+            end_time="2024-01-01 01:00:00",
+            description="Description 1",
+        )
+    )
+    db.add(
+        WorkEntry(
+            project=project,
+            user=user,
+            start_time="2024-01-01 01:00:00",
+            end_time="2024-01-01 02:00:00",
+            description="Description 2",
+        )
+    )
+
 
 def truncate_clients(db: Session):
-    db.query(Client).delete()
-    db.query(User).delete()
+    db.execute(delete(RefreshToken))
+    db.execute(delete(WorkEntry))
+    db.execute(delete(Project))
+    db.execute(delete(Client))
+    db.execute(delete(User))
 
 
 if __name__ == "__main__":

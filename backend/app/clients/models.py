@@ -19,5 +19,5 @@ class Client(Base):
         server_default=func.current_timestamp(),
         onupdate=func.current_timestamp(),
     )
-    user_id = Column(Integer, ForeignKey("users.user_id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False)
     user = relationship("User", back_populates="clients")

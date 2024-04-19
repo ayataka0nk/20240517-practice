@@ -14,6 +14,8 @@ class User(Base):
     name = Column(String(length=255), nullable=False)
 
     clients = relationship("Client", back_populates="user")
+    projects = relationship("Project", back_populates="owner")
+    work_entries = relationship("WorkEntry", back_populates="user")
 
     def verify_password(self, password):
         return self.password == password
