@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from fastapi import APIRouter, Depends
-from typing import Annotated
+from typing import Annotated, Optional
 from app.auths import User, get_user
 from app.database import get_db, Session
 from .models import Project, WorkEntry
@@ -19,9 +19,14 @@ router = APIRouter(prefix="/projects", tags=["projects"])
 
 @router.get("", response_model=list[ProjectSummary])
 def get_projects(
-    user: Annotated[User, Depends(get_user)], db: Annotated[Session, Depends(get_db)]
+    user: Annotated[User, Depends(get_user)],
+    db: Annotated[Session, Depends(get_db)],
+    keyword: Optional[str] = None,
 ):
     stmt = select(Project).where(Project.owner_id == user.user_id)
+
+    if keyword:
+        stmt = stmt.where(Project.name.contains(keyword))
     projects = db.scalars(stmt).all()
     return projects
 
