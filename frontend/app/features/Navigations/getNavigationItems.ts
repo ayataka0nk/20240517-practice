@@ -17,7 +17,7 @@ export const getNavigationItems = ({ pageKey }: { pageKey: PageKey }) => {
       active: pageKey === 'clients'
     },
     {
-      icon: 'BuildingOffice2',
+      icon: 'ClipboardDocumentList',
       labelText: 'プロジェクト',
       href: '/projects',
       active: pageKey === 'projects'
