@@ -122,6 +122,7 @@ export default function ProjectEditPage() {
               id="description"
               name="description"
               label="概要"
+              defaultValue={project.description}
               error={e?.errors?.description}
             />
           </div>
