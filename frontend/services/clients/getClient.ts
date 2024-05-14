@@ -10,10 +10,10 @@ export const getClient = async ({
 }: {
   clientId: string
 }): Promise<ClientDetail> => {
-  const data = await query<{
+  const data = (await query(`/clients/${clientId}`)) as {
     client_id: string
     name: string
-  }>(`/clients/${clientId}`)
+  }
   return {
     clientId: data.client_id,
     name: data.name

@@ -20,12 +20,10 @@ export const getClients = async (
     path = path + '?' + urlSearchParams.toString()
   }
 
-  const data = await query<
-    {
-      client_id: string
-      name: string
-    }[]
-  >(path)
+  const data = (await query(path)) as {
+    client_id: string
+    name: string
+  }[]
 
   return data.map((client) => ({
     clientId: client.client_id,

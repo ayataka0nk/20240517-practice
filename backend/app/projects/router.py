@@ -14,10 +14,10 @@ from .schemas import (
 from . import schemas
 from .dependencies import get_project, get_work_entry
 
-router = APIRouter(prefix="/projects", tags=["projects"])
+router = APIRouter()
 
 
-@router.get("", response_model=list[ProjectSummary])
+@router.get("/projects", response_model=list[ProjectSummary], tags=["projects"])
 def get_projects(
     user: Annotated[User, Depends(get_user)],
     db: Annotated[Session, Depends(get_db)],
@@ -32,12 +32,13 @@ def get_projects(
 
 
 @router.post(
-    "",
+    "/projects",
     response_model=ProjectId,
     status_code=201,
     responses={
         422: {"model": ProjectValidationError, "description": "Validation Error"}
     },
+    tags=["projects"],
 )
 def store_projects(
     body: ProjectBody,
@@ -50,8 +51,8 @@ def store_projects(
     return {"project_id": new_project.project_id}
 
 
-@router.get("/{project_id}", response_model=ProjectDetail)
-def get_project_l(
+@router.get("/projects/{project_id}", response_model=ProjectDetail, tags=["projects"])
+def get_project(
     user: Annotated[User, Depends(get_user)],
     project: Annotated[Project, Depends(get_project)],
 ):
@@ -59,11 +60,12 @@ def get_project_l(
 
 
 @router.patch(
-    "/{project_id}",
+    "/projects/{project_id}",
     status_code=204,
     responses={
         422: {"model": ProjectValidationError, "description": "Validation Error"}
     },
+    tags=["projects"],
 )
 def update_project(
     project: Annotated[Project, Depends(get_project)],
@@ -76,7 +78,7 @@ def update_project(
     return
 
 
-@router.delete("/{project_id}", status_code=204)
+@router.delete("/projects/{project_id}", status_code=204, tags=["projects"])
 def delete_project(
     project: Annotated[Project, Depends(get_project)],
     db: Annotated[Session, Depends(get_db)],
@@ -86,15 +88,23 @@ def delete_project(
     return
 
 
-@router.get("/{project_id}/work-entries", response_model=list[schemas.WorkEntrySummary])
+#################
+## WorkEntry
+#################
+
+
+@router.get(
+    "/work-entries",
+    response_model=list[schemas.WorkEntrySummary],
+    tags=["work-entries"],
+)
 def get_work_entries(
     user: Annotated[User, Depends(get_user)],
-    project_id: str,
     db: Annotated[Session, Depends(get_db)],
 ):
     stmt = (
         select(WorkEntry)
-        .where(WorkEntry.project_id == project_id)
+        # .where(WorkEntry.project_id == project_id)
         .where(WorkEntry.user_id == user.user_id)
     )
     userWorkEntries = db.scalars(stmt).all()
@@ -102,8 +112,9 @@ def get_work_entries(
 
 
 @router.get(
-    "/{project_id}/work-entries/{work_entry_id}",
+    "/work-entries/{work_entry_id}",
     response_model=schemas.WorkEntryDetail,
+    tags=["work-entries"],
 )
 def get_work_entry(
     work_entry: Annotated[WorkEntry, Depends(get_work_entry)],
@@ -112,7 +123,7 @@ def get_work_entry(
 
 
 @router.post(
-    "/{project_id}/work-entries",
+    "/work-entries",
     response_model=schemas.WorkEntryId,
     status_code=201,
     responses={
@@ -121,6 +132,7 @@ def get_work_entry(
             "description": "Validation Error",
         }
     },
+    tags=["work-entries"],
 )
 def store_work_entries(
     project_id: str,
@@ -137,7 +149,7 @@ def store_work_entries(
 
 
 @router.patch(
-    "/{project_id}/work-entries/{work_entry_id}",
+    "/work-entries/{work_entry_id}",
     status_code=204,
     responses={
         422: {
@@ -145,6 +157,7 @@ def store_work_entries(
             "description": "Validation Error",
         }
     },
+    tags=["work-entries"],
 )
 def update_work_entry(
     work_entry: Annotated[WorkEntry, Depends(get_work_entry)],
@@ -159,8 +172,9 @@ def update_work_entry(
 
 
 @router.delete(
-    "/{project_id}/work-entries/{work_entry_id}",
+    "/work-entries/{work_entry_id}",
     status_code=204,
+    tags=["work-entries"],
 )
 def delete_work_entry(
     work_entry: Annotated[WorkEntry, Depends(get_work_entry)],

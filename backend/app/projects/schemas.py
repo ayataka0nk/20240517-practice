@@ -61,6 +61,7 @@ class WorkEntryDetail(BaseModel):
 
 
 class WorkEntryBody(BaseModel):
+    project_id: UUID
     start_time: datetime
     end_time: datetime
     description: str

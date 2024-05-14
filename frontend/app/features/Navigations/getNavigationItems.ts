@@ -1,6 +1,6 @@
 import { NavigationItemType } from '~/components/Navigation'
 
-export type PageKey = 'dashboard' | 'clients' | 'projects'
+export type PageKey = 'dashboard' | 'clients' | 'projects' | 'workEntries'
 
 export const getNavigationItems = ({ pageKey }: { pageKey: PageKey }) => {
   const items: NavigationItemType[] = [
@@ -21,6 +21,12 @@ export const getNavigationItems = ({ pageKey }: { pageKey: PageKey }) => {
       labelText: 'プロジェクト',
       href: '/projects',
       active: pageKey === 'projects'
+    },
+    {
+      icon: 'ClipboardDocumentList',
+      labelText: '稼働記録',
+      href: '/work-entries',
+      active: pageKey === 'workEntries'
     },
     {
       icon: 'ArrowLeftStartOnRectangle',

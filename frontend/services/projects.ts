@@ -46,12 +46,10 @@ export const getProjects = async (
     path = path + '?' + urlSearchParams.toString()
   }
 
-  const data = await query<
-    {
-      project_id: string
-      name: string
-    }[]
-  >(path)
+  const data = (await query(path)) as {
+    project_id: string
+    name: string
+  }[]
 
   return data.map((project) => ({
     projectId: project.project_id,
@@ -64,11 +62,11 @@ export const getProject = async ({
 }: {
   projectId: string
 }): Promise<ProjectDetail> => {
-  const data = await query<{
+  const data = (await query(`/projects/${projectId}`)) as {
     project_id: string
     name: string
     description: string
-  }>(`/projects/${projectId}`)
+  }
   return {
     projectId: data.project_id,
     name: data.name,
@@ -76,10 +74,9 @@ export const getProject = async ({
   }
 }
 
-export const storeProject = async (params: {
-  name: string
-  description: string
-}): Promise<string> => {
+export const storeProject = async (
+  params: StoreProjectParams
+): Promise<string> => {
   const response = await authFetchJson('/projects', {
     method: 'POST',
     body: JSON.stringify({
@@ -109,11 +106,9 @@ export const storeProject = async (params: {
   }
 }
 
-export const updateProject = async (params: {
-  projectId: string
-  name: string
-  description: string
-}): Promise<void> => {
+export const updateProject = async (
+  params: UpdateProjectParams
+): Promise<void> => {
   const response = await authFetchJson(`/projects/${params.projectId}`, {
     method: 'PATCH',
     body: JSON.stringify({

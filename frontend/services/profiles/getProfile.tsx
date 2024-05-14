@@ -7,6 +7,6 @@ export type Profile = {
 }
 
 export const getProfile = async (): Promise<Profile> => {
-  const data = await query<Profile>('/profile')
+  const data = (await query('/profile')) as Profile
   return data
 }

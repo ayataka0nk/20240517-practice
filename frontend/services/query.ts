@@ -2,7 +2,7 @@ import { InternalServerError } from './InternalServerError'
 import { UnauthorizedError } from './UnauthorizedError'
 import { authFetch } from './fetch'
 
-export const query = async <T>(url: string): Promise<T> => {
+export const query = async (url: string): Promise<any> => {
   const response = await authFetch(url, {
     method: 'GET',
     headers: {
