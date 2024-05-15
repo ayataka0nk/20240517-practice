@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.orm import joinedload
 from fastapi import APIRouter, Depends
 from typing import Annotated, Optional
 from app.auths import User, get_user
@@ -104,8 +105,8 @@ def get_work_entries(
 ):
     stmt = (
         select(WorkEntry)
-        # .where(WorkEntry.project_id == project_id)
         .where(WorkEntry.user_id == user.user_id)
+        .options(joinedload(WorkEntry.project))
     )
     userWorkEntries = db.scalars(stmt).all()
     return userWorkEntries
@@ -135,14 +136,11 @@ def get_work_entry(
     tags=["work-entries"],
 )
 def store_work_entries(
-    project_id: str,
     body: schemas.WorkEntryBody,
     user: Annotated[User, Depends(get_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
-    new_work_entry = WorkEntry(
-        **body.model_dump(), project_id=project_id, user_id=user.user_id
-    )
+    new_work_entry = WorkEntry(**body.model_dump(), user_id=user.user_id)
     db.add(new_work_entry)
     db.commit()
     return {"work_entry_id": new_work_entry.work_entry_id}

@@ -24,15 +24,23 @@ def upgrade() -> None:
     op.create_table(
         "projects",
         sa.Column("project_id", UUID(as_uuid=True), primary_key=True),
-        sa.Column("name", sa.String),
-        sa.Column("description", sa.Text),
-        sa.Column("owner_id", UUID(as_uuid=True), sa.ForeignKey("users.user_id")),
-        sa.Column("created_at", sa.DateTime, server_default=sa.func.now()),
+        sa.Column("name", sa.String, nullable=False),
+        sa.Column("description", sa.Text, nullable=True),
+        sa.Column(
+            "owner_id",
+            UUID(as_uuid=True),
+            sa.ForeignKey("users.user_id"),
+            nullable=False,
+        ),
+        sa.Column(
+            "created_at", sa.DateTime, server_default=sa.func.now(), nullable=False
+        ),
         sa.Column(
             "updated_at",
             sa.DateTime,
             server_default=sa.func.now(),
             onupdate=sa.func.now(),
+            nullable=False,
         ),
     )
 
@@ -40,18 +48,29 @@ def upgrade() -> None:
         "work_entries",
         sa.Column("work_entry_id", UUID(as_uuid=True), primary_key=True),
         sa.Column(
-            "project_id", UUID(as_uuid=True), sa.ForeignKey("projects.project_id")
+            "project_id",
+            UUID(as_uuid=True),
+            sa.ForeignKey("projects.project_id"),
+            nullable=False,
         ),
-        sa.Column("user_id", UUID(as_uuid=True), sa.ForeignKey("users.user_id")),
-        sa.Column("start_time", sa.DateTime),
-        sa.Column("end_time", sa.DateTime),
-        sa.Column("description", sa.Text),
-        sa.Column("created_at", sa.DateTime, server_default=sa.func.now()),
+        sa.Column(
+            "user_id",
+            UUID(as_uuid=True),
+            sa.ForeignKey("users.user_id"),
+            nullable=False,
+        ),
+        sa.Column("start_time", sa.DateTime, nullable=False),
+        sa.Column("end_time", sa.DateTime, nullable=True),
+        sa.Column("description", sa.Text, nullable=True),
+        sa.Column(
+            "created_at", sa.DateTime, server_default=sa.func.now(), nullable=False
+        ),
         sa.Column(
             "updated_at",
             sa.DateTime,
             server_default=sa.func.now(),
             onupdate=sa.func.now(),
+            nullable=False,
         ),
     )
 
@@ -59,9 +78,12 @@ def upgrade() -> None:
         "tags",
         sa.Column("tag_id", UUID(as_uuid=True), primary_key=True),
         sa.Column(
-            "project_id", UUID(as_uuid=True), sa.ForeignKey("projects.project_id")
+            "project_id",
+            UUID(as_uuid=True),
+            sa.ForeignKey("projects.project_id"),
+            nullable=False,
         ),
-        sa.Column("name", sa.Text),
+        sa.Column("name", sa.Text, nullable=False),
     )
 
     op.create_table(
@@ -70,8 +92,11 @@ def upgrade() -> None:
             "work_entry_id",
             UUID(as_uuid=True),
             sa.ForeignKey("work_entries.work_entry_id"),
+            nullable=False,
         ),
-        sa.Column("tag_id", UUID(as_uuid=True), sa.ForeignKey("tags.tag_id")),
+        sa.Column(
+            "tag_id", UUID(as_uuid=True), sa.ForeignKey("tags.tag_id"), nullable=False
+        ),
     )
 
 

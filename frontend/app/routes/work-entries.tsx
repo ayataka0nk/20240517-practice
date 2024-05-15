@@ -8,20 +8,23 @@ import { getWorkEntries } from 'services/workEntries'
 import { TwoPaneLayout } from '~/components/Layout'
 import { FirstPane, SecondPane } from '~/components/Layout/TwoPaneLayout'
 import { UserNavigations } from '~/features/Navigations/UserNavigations'
-import { useProjectNavigationAction } from '~/features/Projects/navigationAction'
 import { WorkEntriesPanel } from '~/features/WorkEntries/WorkEntriesPanel'
+import { useWorkEntryNavigationAction } from '~/features/WorkEntries/navigationAction'
+import { getTimeZone } from '~/utils'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const url = new URL(request.url)
   const keyword = url.searchParams.get('keyword') ?? undefined
   const workEntries = await getWorkEntries()
-  return { workEntries }
+  const timeZone = await getTimeZone()
+  return { workEntries, timeZone }
 }
 export default function WorkEntriesPage() {
   const data = useLoaderData<typeof clientLoader>()
   const [searchParams] = useSearchParams()
   const searchedValue = searchParams.get('keyword') ?? ''
-  const navigationAction = useProjectNavigationAction()
+  const navigationAction = useWorkEntryNavigationAction()
+  console.log(data)
   return (
     <div className="h-screen flex bg-surface-container">
       <UserNavigations
@@ -33,6 +36,7 @@ export default function WorkEntriesPage() {
           <WorkEntriesPanel
             workEntries={data.workEntries}
             searchedValue={searchedValue}
+            timeZone={data.timeZone}
           />
         </FirstPane>
         <SecondPane className="bg-surface-container">

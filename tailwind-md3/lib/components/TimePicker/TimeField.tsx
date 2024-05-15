@@ -144,6 +144,14 @@ export const TimeField = forwardRef<HTMLInputElement, TextFieldProps>(
     )
 
     useEffect(() => {
+      // uncontrolledのとき、与えられた初期値をローカルの状態に反映させる
+      // ただし初回だけなので、defaultValueの変更は検知しない
+      if (typeof defaultValue === 'string') {
+        changeValue(defaultValue)
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    useEffect(() => {
       if (typeof parentValue === 'string') {
         changeValue(parentValue)
       }

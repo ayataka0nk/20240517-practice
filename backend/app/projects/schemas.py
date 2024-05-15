@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 from pydantic import BaseModel, Field
 from datetime import datetime
@@ -47,8 +48,9 @@ class WorkEntrySummary(BaseModel):
     project_id: UUID
     user_id: UUID
     start_time: datetime
-    end_time: datetime
+    end_time: Optional[datetime]
     description: str
+    project: ProjectSummary
 
 
 class WorkEntryDetail(BaseModel):
@@ -56,14 +58,14 @@ class WorkEntryDetail(BaseModel):
     project_id: UUID
     user_id: UUID
     start_time: datetime
-    end_time: datetime
+    end_time: Optional[datetime]
     description: str
 
 
 class WorkEntryBody(BaseModel):
     project_id: UUID
     start_time: datetime
-    end_time: datetime
+    end_time: datetime = Field(None)
     description: str
 
 

@@ -24,5 +24,5 @@ export const getWorkEntryEditPath = (
   workEntryId: string,
   urlSearchParams: URLSearchParams
 ) => {
-  return `/work-entries/edit?${urlSearchParams.toString()}`
+  return `/work-entries/${workEntryId}/edit?${urlSearchParams.toString()}`
 }

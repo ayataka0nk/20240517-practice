@@ -6,13 +6,19 @@ import { getWorkEntryDetailPath } from './paths'
 import { FABNavigation } from '~/components/Navigation'
 import { SearchForm } from '~/components/SearchForm'
 import { Card } from '@ayataka/tailwind-md3'
+import { formatMonthDateHourMinute } from '~/utils'
 
 type Props = {
   workEntries: WorkEntrySummary[]
   searchedValue: string
+  timeZone: string
 }
 
-export const WorkEntriesPanel = ({ workEntries, searchedValue }: Props) => {
+export const WorkEntriesPanel = ({
+  workEntries,
+  searchedValue,
+  timeZone
+}: Props) => {
   const { setIsDrawerModalOpen } = useNavigationContext()
   const handleMenuClick = () => {
     setIsDrawerModalOpen(true)
@@ -40,7 +46,16 @@ export const WorkEntriesPanel = ({ workEntries, searchedValue }: Props) => {
             component={Link}
             to={getWorkEntryDetailPath(workEntry.workEntryId, searchParams)}
           >
-            {workEntry.description}
+            <p>{workEntry.project.name}</p>
+            <p>
+              <span>
+                {formatMonthDateHourMinute(workEntry.startTime, timeZone)}
+              </span>
+              <span className="mr-1 ml-1">~</span>
+              <span>
+                {formatMonthDateHourMinute(workEntry.endTime, timeZone)}
+              </span>
+            </p>
           </Card>
         ))}
       </div>

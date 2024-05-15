@@ -44,6 +44,24 @@ export const DatePickers = () => {
           <Button type="submit">submit</Button>
         </form>
       </div>
+      <div>
+        <h2>default value</h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            const form = new FormData(e.currentTarget)
+            const value = form.get('sample')
+            console.log(value)
+          }}
+        >
+          <DateFieldModal
+            label="uncontrolled"
+            name="sample"
+            defaultValue="2025-01-01"
+          />
+          <Button type="submit">submit</Button>
+        </form>
+      </div>
     </div>
   )
 }

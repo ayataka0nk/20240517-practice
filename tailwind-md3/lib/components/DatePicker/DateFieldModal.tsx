@@ -135,10 +135,20 @@ export const DateFieldModal = forwardRef<HTMLInputElement, Props>(
     )
 
     useEffect(() => {
+      // controlledのとき、親コンポーネントの値の変更にローカルの状態を追従させる
       if (typeof parentValue === 'string') {
         changeValue(parentValue)
       }
     }, [parentValue, changeValue])
+
+    useEffect(() => {
+      // uncontrolledのとき、与えられた初期値をローカルの状態に反映させる
+      // ただし初回だけなので、defaultValueの変更は検知しない
+      if (typeof defaultValue === 'string') {
+        changeValue(defaultValue)
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleTextFieldClick = () => {
       // モーダルが開くタイミングでモーダルの表示を初期化
