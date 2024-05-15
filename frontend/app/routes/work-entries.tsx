@@ -24,7 +24,6 @@ export default function WorkEntriesPage() {
   const [searchParams] = useSearchParams()
   const searchedValue = searchParams.get('keyword') ?? ''
   const navigationAction = useWorkEntryNavigationAction()
-  console.log(data)
   return (
     <div className="h-screen flex bg-surface-container">
       <UserNavigations
