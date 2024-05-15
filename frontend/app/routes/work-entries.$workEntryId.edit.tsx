@@ -2,8 +2,10 @@ import {
   Button,
   Card,
   DateFieldModal,
+  IconButton,
   TextArea,
-  TimeField
+  TimeField,
+  useDialog
 } from '@ayataka/tailwind-md3'
 import {
   ClientActionFunctionArgs,
@@ -15,10 +17,14 @@ import {
 } from '@remix-run/react'
 import {
   UpdateWorkEntryValidationError,
+  deleteWorkEntry,
   getWorkEntry,
   updateWorkEntry
 } from 'services/workEntries'
-import { getWorkEntryDetailPath } from '~/features/WorkEntries/paths'
+import {
+  getWorkEntryDetailPath,
+  getWorkEntryListPath
+} from '~/features/WorkEntries/paths'
 import {
   formatToHourMinute,
   formatToYearMonthDate,
@@ -33,10 +39,7 @@ export const clientLoader = async ({ params }: ClientLoaderFunctionArgs) => {
   return { workEntry, timeZone }
 }
 
-export const clientAction = async ({
-  request,
-  params
-}: ClientActionFunctionArgs) => {
+const updateAction = async ({ request, params }: ClientActionFunctionArgs) => {
   const workEntryId = params.workEntryId as string
   const timeZone = await getTimeZone()
   const formData = await request.formData()
@@ -71,13 +74,63 @@ export const clientAction = async ({
   }
 }
 
+const deleteAction = async ({ request, params }: ClientActionFunctionArgs) => {
+  const workEntryId = params.workEntryId as string
+  await deleteWorkEntry({ workEntryId })
+  return redirect(getWorkEntryListPath(new URL(request.url).searchParams))
+}
+
+export const clientAction = async (args: ClientActionFunctionArgs) => {
+  const formData = await args.request.clone().formData()
+  const _action = formData.get('_action') as string
+  if (_action === 'UPDATE') {
+    return updateAction(args)
+  } else if (_action === 'DELETE') {
+    return deleteAction(args)
+  } else {
+    throw new Error('Invalid action')
+  }
+}
+
 export default function WorkEntryEditPage() {
   const { workEntry, timeZone } = useLoaderData<typeof clientLoader>()
   const e = useActionData<typeof clientAction>()
+  const { DialogComponent, showModal, closeModal } = useDialog()
+
   return (
     <div>
       <Card bg="surface">
+        <div className="mb-4 flex justify-between items-center">
+          <p></p>
+          <IconButton
+            icon="Trash"
+            variant="standard"
+            color="tertiary"
+            type="button"
+            onClick={showModal}
+          >
+            削除
+          </IconButton>
+          <DialogComponent
+            headline="削除しますか？"
+            supportingText="この操作は取り消せません。"
+            leftButton={
+              <Button variant="text" type="button" onClick={closeModal}>
+                いいえ
+              </Button>
+            }
+            rightButton={
+              <Form method="post">
+                <Button variant="text" type="submit">
+                  はい
+                </Button>
+                <input type="hidden" name="_action" value="DELETE" />
+              </Form>
+            }
+          />
+        </div>
         <Form method="post">
+          <input type="hidden" name="_action" value="UPDATE" />
           <div>
             <DateFieldModal
               id="start_date"
