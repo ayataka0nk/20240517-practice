@@ -11,6 +11,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@ayataka0nk/ryokucha-ui": "^0.0.1",
+    "@headlessui/react": "^2.0.3",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "date-fns": "^3.6.0",
